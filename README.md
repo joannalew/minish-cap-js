@@ -1,12 +1,12 @@
-## Minish Cap JS
+# Minish Cap JS
 
 [Live Demo](https://github.com/joannalew/)
 
-#### Overview
+### Overview
 
 Minish Cap JS is a clone of the game [Zelda: Minish Cap](https://en.wikipedia.org/wiki/The_Legend_of_Zelda:_The_Minish_Cap). The user plays as the character, Link, who lives in the land of Hyrule. The player can wander around Hyrule slaying monsters with a shield and sword.
 
-#### Functionality & MVP
+### Functionality & MVP
 
 In the game, the player can:
 * Walk around, moving to different maps
@@ -15,11 +15,11 @@ In the game, the player can:
 * Use their shield to defend against attacks
 * Lose health when attacked
 
-#### Wireframe
+### Wireframe
 
 ![minish-cap-wireframe](https://user-images.githubusercontent.com/22438779/50921196-3f86dc80-13fc-11e9-9138-47b8413ee098.png)
 
-#### Technologies
+### Technologies
 
 * Vanilla Javascript for overall structure and game logic
 * HTML Canvas for DOM manipulation and rendering
@@ -27,9 +27,9 @@ In the game, the player can:
 * Webpack to bundle and serve up various scripts
 
 
-#### Timeline
+### Timeline
 
-###### Day 1
+##### Day 1
 - [ ] Get map on screen
 - [ ] Get player character on screen
 - [ ] Be able to move between maps
