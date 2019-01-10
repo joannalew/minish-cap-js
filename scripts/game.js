@@ -4,13 +4,19 @@ class Game {
         this.screen = this.canvas.getContext('2d');
         this.gameSize = { x: this.canvas.width, y: this.canvas.height };
         this.bodies = [new Player(this, this.gameSize),
-                       new Wall(this, this.gameSize, 100, 35, 0, -145),
+                       new Wall(this, this.gameSize, 100, 35, 0, -155),
                        new Wall(this, this.gameSize, 5, 80, -67, -40),
                        new Wall(this, this.gameSize, 5, 80, 80, -40),
                        new Wall(this, this.gameSize, 5, 120, 60, -140),
                        new Wall(this, this.gameSize, 5, 120, -47, -140),
+                       new Wall(this, this.gameSize, 5, 40, 50, -220),
+                       new Wall(this, this.gameSize, 5, 40, -37, -220),
                        new Wall(this, this.gameSize, 20, 10, -45, -70),
-                       new Wall(this, this.gameSize, 20, 10, 58, -70)];
+                       new Wall(this, this.gameSize, 20, 10, 58, -70),
+                       new Door(this, this.gameSize, 100, 5, 0, -135, 0, -1),
+                       new Door(this, this.gameSize, 120, 2, 0, 120, 0, 1)];
+
+        this.spritePosition = { x: -3744, y: -1460 };
 
         this.tick = this.tick.bind(this);
         this.update = this.update.bind(this);
@@ -36,6 +42,11 @@ class Game {
                 if (this.bodies[i].constructor.name === "Wall") {
                     this.bodies[0].center.x = this.bodies[0].oldCenter.x;
                     this.bodies[0].center.y = this.bodies[0].oldCenter.y;
+                }
+                else if (this.bodies[i].constructor.name === "Door") {
+                    this.spritePosition.x += this.gameSize.x * this.bodies[i].mapX;
+                    this.spritePosition.y += this.gameSize.y * this.bodies[i].mapY;
+                    this.canvas.style.backgroundPosition = `${this.spritePosition.x}px ${this.spritePosition.y}px`;
                 }
             }
         }
