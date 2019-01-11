@@ -3,18 +3,12 @@ class Game {
         this.canvas = document.getElementById(canvasId);
         this.screen = this.canvas.getContext('2d');
         this.gameSize = { x: this.canvas.width, y: this.canvas.height };
-        this.bodies = [new Player(this, this.gameSize),
-                       new Wall(this, this.gameSize, 100, 35, 0, -155),
-                       new Wall(this, this.gameSize, 5, 80, -67, -40),
-                       new Wall(this, this.gameSize, 5, 80, 80, -40),
-                       new Wall(this, this.gameSize, 5, 120, 60, -140),
-                       new Wall(this, this.gameSize, 5, 120, -47, -140),
-                       new Wall(this, this.gameSize, 5, 40, 50, -220),
-                       new Wall(this, this.gameSize, 5, 40, -37, -220),
-                       new Wall(this, this.gameSize, 20, 10, -45, -70),
-                       new Wall(this, this.gameSize, 20, 10, 58, -70),
-                       new Door(this, this.gameSize, 100, 5, 0, -135, 0, -1),
-                       new Door(this, this.gameSize, 120, 2, 0, 120, 0, 1)];
+        this.mapId = 0;
+
+        this.bodies = [];
+        this.player = new Player(this, this.gameSize);
+        this.envBodies = loadMap(this, this.gameSize, this.mapId);
+        this.bodies = this.bodies.concat(this.player, this.envBodies.walls, this.envBodies.doors);
 
         this.spritePosition = { x: -3744, y: -1460 };
 
@@ -22,6 +16,7 @@ class Game {
         this.update = this.update.bind(this);
         this.draw = this.draw.bind(this);
         this.checkCollision = this.checkCollision.bind(this);
+        this.resetMap = this.resetMap.bind(this);
 
         this.tick();
     }
@@ -40,13 +35,15 @@ class Game {
         for (let i = 1; i < this.bodies.length; i++){
             if (this.checkCollision(this.bodies[0], this.bodies[i])) {
                 if (this.bodies[i].constructor.name === "Wall") {
-                    this.bodies[0].center.x = this.bodies[0].oldCenter.x;
-                    this.bodies[0].center.y = this.bodies[0].oldCenter.y;
+                    this.player.center.x = this.player.oldCenter.x;
+                    this.player.center.y = this.player.oldCenter.y;
                 }
                 else if (this.bodies[i].constructor.name === "Door") {
                     this.spritePosition.x += this.gameSize.x * this.bodies[i].mapX;
                     this.spritePosition.y += this.gameSize.y * this.bodies[i].mapY;
                     this.canvas.style.backgroundPosition = `${this.spritePosition.x}px ${this.spritePosition.y}px`;
+                    this.player.center.y -= 4;
+                    this.resetMap();
                 }
             }
         }
@@ -64,6 +61,13 @@ class Game {
                  body1.center.y + body1.size.y / 2 < body2.center.y - body2.size.y / 2 || 
                  body1.center.x - body1.size.x / 2 > body2.center.x + body2.size.x / 2 ||
                  body1.center.y - body1.size.y / 2 > body2.center.y + body2.size.y / 2);
+    }
+
+    resetMap() {
+        this.screen.clearRect(0, 0, 480, 320);
+        this.bodies.splice(1);
+        this.mapId += 1;
+        this.bodies.concat(loadMap(this, this.gameSize, this.mapId));
     }
 }
 

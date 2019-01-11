@@ -13,8 +13,8 @@ class Door {
     }
 
     draw() {
-        this.game.screen.fillRect(this.center.x - this.size.x / 2, 
-                                  this.center.y - this.size.y / 2,
-                                  this.size.x, this.size.y);
+        // this.game.screen.fillRect(this.center.x - this.size.x / 2, 
+        //                           this.center.y - this.size.y / 2,
+        //                           this.size.x, this.size.y);
     }
 }
