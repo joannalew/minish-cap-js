@@ -17,7 +17,8 @@ class Player {
         this.spritePosition = { x: this.spriteKey.STAND_FRONT_X, y: this.spriteKey.STAND_Y };
         this.spriteFlipped = false;
 
-        this.walkTotalFrames = 10;
+        this.walkSpeed = 3;
+        this.walkTotalFrames = 10 * this.walkSpeed;
         this.walkCurrentFrames = 0;
         this.walkSpritePosition = { x: this.spriteKey.WALK_FRONT_X, y: this.spriteKey.WALK_Y };
 
@@ -77,14 +78,17 @@ class Player {
                                    this.size.x / 2, this.size.y / 2,
                                    this.center.x - this.size.x / 2, this.center.y - this.size.y / 2,
                                    this.size.x, this.size.y );
-        this.walkSpritePosition.x += 32;
         this.walkCurrentFrames += 1
+
+        if (this.walkCurrentFrames % this.walkSpeed === 0) {
+            this.walkSpritePosition.x += 32;
+        }
 
         if (this.walkCurrentFrames === this.walkTotalFrames) {
             this.walkSpritePosition.x = this.spriteKey.WALK_FRONT_X;
             this.walkCurrentFrames = 0
         }
 
-        requestAnimationFrame(this.animate);
+        console.log(this.walkCurrentFrames % this.walkSpeed === 0)
     }
 };
