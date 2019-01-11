@@ -17,4 +17,8 @@ class Door {
         //                           this.center.y - this.size.y / 2,
         //                           this.size.x, this.size.y);
     }
+
+    animate() {
+        
+    }
 }
