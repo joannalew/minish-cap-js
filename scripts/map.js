@@ -1,6 +1,7 @@
 const loadMap = function(game, gameSize, id) {
     let doors = [];
     let walls = [];
+    let enemies = [];
 
     if (id === 0) {
         walls = [
@@ -19,7 +20,11 @@ const loadMap = function(game, gameSize, id) {
             new Door(game, gameSize, 100, 5, 0, -135, 0, 1),
             new Door(game, gameSize, 120, 2, 0, 120, 0, -1)
         ];
+
+        enemies = [
+            new Enemy(game, gameSize, )
+        ];
     }
 
-    return { doors: doors, walls: walls };
+    return { doors: doors, walls: walls, enemies: enemies };
 }

@@ -50,6 +50,7 @@ class Game {
     }
 
     draw() {
+        this.screen.clearRect(0, 0, this.gameSize.x, this.gameSize.y);
         for (let i = 0; i < this.bodies.length; i++) {
             this.bodies[i].draw();
         }
@@ -64,7 +65,6 @@ class Game {
     }
 
     resetMap() {
-        this.screen.clearRect(0, 0, 480, 320);
         this.bodies.splice(1);
         this.mapId += 1;
         this.bodies.concat(loadMap(this, this.gameSize, this.mapId));

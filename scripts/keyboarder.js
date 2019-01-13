@@ -10,5 +10,6 @@ const Keyboarder = function() {
     };
 
     this.isDown = keyCode => keyState[keyCode] === true;
-    this.KEYS = { LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40, SPACE: 32 };
+    this.KEYS = { LEFT: 37, UP: 38, RIGHT: 39, DOWN: 40, 
+                  SPACE: 32, Z: 90, X: 88 };
 };

@@ -10,10 +10,12 @@ class Player {
             STAND_FRONT_X: 15,
             STAND_LEFT_X: 51, 
             STAND_BACK_X: 79,
+            STAND_RIGHT_X: 104,
             STAND_Y: 9,
             WALK_FRONT_X: 15,
             WALK_LEFT_X: 350,
             WALK_BACK_X: 683,
+            WALK_RIGHT_X: 1013,
             WALK_Y: 76
         }
         this.spritePosition = { x: this.spriteKey.STAND_FRONT_X, y: this.spriteKey.STAND_Y };
@@ -21,7 +23,7 @@ class Player {
 
         this.walkSpeed = 3;
         this.walkTotalFrames = 10 * this.walkSpeed;
-        this.walkCurrentFrames = 0;
+        this.walkCurrentFrame = 0;
         this.walkSpritePosition = { x: this.spriteKey.WALK_FRONT_X, y: this.spriteKey.WALK_Y };
 
         this.keyboarder = new Keyboarder();
@@ -47,8 +49,8 @@ class Player {
 
             if (this.spriteDirection !== "right") {
                 this.spriteDirection = 'right';
-                this.spritePosition = { x: this.spriteKey.STAND_LEFT_X, y: this.spriteKey.STAND_Y };
-                this.walkSpritePosition = { x: this.spriteKey.WALK_LEFT_X, y: this.spriteKey.WALK_Y };
+                this.spritePosition = { x: this.spriteKey.STAND_RIGHT_X, y: this.spriteKey.STAND_Y };
+                this.walkSpritePosition = { x: this.spriteKey.WALK_RIGHT_X, y: this.spriteKey.WALK_Y };
             }
         }
         else if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) {
@@ -81,39 +83,39 @@ class Player {
             this.animateWalk(this.spriteKey.WALK_BACK_X);
         }
         else if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
-            this.animateWalk(this.spriteKey.WALK_LEFT_X);
+            this.animateWalk(this.spriteKey.WALK_LEFT_X, 6, [0, -2, -3, -4, -6, 0, -2, -3, -1, -6]);
         }
         else if (this.keyboarder.isDown(this.keyboarder.KEYS.RIGHT)) {
-            this.animateWalk(this.spriteKeyWALK_LEFT_X);
+            this.animateWalk(this.spriteKey.WALK_RIGHT_X, 6, [0, 0, 0, 0, -1, -1, -1, 0, 1, 1]);
         }
         else {
-            this.game.screen.clearRect(0, 0, this.gameSize.x, this.gameSize.y);
             const img = document.getElementById("link");
             this.game.screen.drawImage(img, 
-                                    this.walkSpritePosition.x, this.walkSpritePosition.y,
+                                    this.spritePosition.x, this.spritePosition.y,
                                     this.size.x / 2, this.size.y / 2,
                                     this.center.x - this.size.x / 2, this.center.y - this.size.y / 2,
                                     this.size.x, this.size.y);
         }
     }
 
-    animateWalk(reset) {
-        this.game.screen.clearRect(0, 0, this.gameSize.x, this.gameSize.y);
+    animateWalk(reset, sizeOffset = 0, positionOffset = [0,0,0,0,0,0,0,0,0,0]) {
+        console.log(this.walkSpritePosition.x + positionOffset[parseInt(this.walkCurrentFrame / this.walkSpeed)]);
         const img = document.getElementById("link");
         this.game.screen.drawImage(img, 
-                                   this.walkSpritePosition.x, this.walkSpritePosition.y,
-                                   this.size.x / 2, this.size.y / 2,
+                                   this.walkSpritePosition.x + positionOffset[parseInt(this.walkCurrentFrame / this.walkSpeed)], 
+                                   this.walkSpritePosition.y,
+                                   this.size.x / 2 + sizeOffset, this.size.y / 2 + sizeOffset,
                                    this.center.x - this.size.x / 2, this.center.y - this.size.y / 2,
-                                   this.size.x, this.size.y );
-        this.walkCurrentFrames += 1
+                                   this.size.x + sizeOffset * 2, this.size.y + sizeOffset * 2);
+        this.walkCurrentFrame += 1
 
-        if (this.walkCurrentFrames % this.walkSpeed === 0) {
+        if (this.walkCurrentFrame % this.walkSpeed === 0) {
             this.walkSpritePosition.x += 32;
         }
 
-        if (this.walkCurrentFrames === this.walkTotalFrames) {
+        if (this.walkCurrentFrame === this.walkTotalFrames) {
             this.walkSpritePosition.x = reset;
-            this.walkCurrentFrames = 0
+            this.walkCurrentFrame = 0
         }
     }
 };

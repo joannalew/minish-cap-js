@@ -17,6 +17,6 @@ class Wall {
     }
 
     animate() {
-        
+
     }
 }
