@@ -3,9 +3,13 @@ class Player {
         this.game = game;
         this.gameSize = gameSize;
         this.size = {x: 36, y: 48};
-        this.center = { x: gameSize.x / 2, y: gameSize.y - this.size.x };
+        this.center = { x: gameSize.x / 2, y: gameSize.y / 2 };
         this.oldCenter = { x: this.center.x, y: this.center.y };
     
+        this.move = 0;
+        this.health = 12;
+        this.damage = 1;
+
         this.spriteKey = {
             STAND_FRONT_X: 15,
             STAND_LEFT_X: 51, 
@@ -33,9 +37,10 @@ class Player {
     }
 
     update() {
+        // console.log(this.game.getBackgroundPositionX(), this.game.getBackgroundPositionY());
+
         if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
-            this.oldCenter.x = this.center.x;
-            this.center.x -= 2;
+            this.game.changeBackgroundX(2);
 
             if (this.spriteDirection !== "left") {
                 this.spriteDirection = 'left';
@@ -44,8 +49,7 @@ class Player {
             }
         }
         else if (this.keyboarder.isDown(this.keyboarder.KEYS.RIGHT)) {
-            this.oldCenter.x = this.center.x;
-            this.center.x += 2;
+            this.game.changeBackgroundX(-2);
 
             if (this.spriteDirection !== "right") {
                 this.spriteDirection = 'right';
@@ -53,9 +57,24 @@ class Player {
                 this.walkSpritePosition = { x: this.spriteKey.WALK_RIGHT_X, y: this.spriteKey.WALK_Y };
             }
         }
-        else if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) {
-            this.oldCenter.y = this.center.y;
-            this.center.y -= 2;
+        else if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) { 
+            this.move = movement(this.game.getBackgroundPositionX() + (this.center.x - this.gameSize.x / 2), 
+                                 this.game.getBackgroundPositionY() + (this.center.y - this.gameSize.y / 2));           
+
+            if (this.move === 1) {
+                    this.oldCenter.y = this.center.y;
+                    this.center.y += -2;
+            }
+            else if (this.move === 3) {
+                this.game.shiftBackgroundY(1, 24);
+                // this.center.y = 230;
+            }
+            else if (this.move === 0) {
+                this.game.changeBackgroundY(2);
+            }
+            else {
+                this.center.y = this.oldCenter.y;
+            }
 
             if (this.spriteDirection !== "up") {
                 this.spriteDirection = 'up';
@@ -64,8 +83,23 @@ class Player {
             }
         }
         else if (this.keyboarder.isDown(this.keyboarder.KEYS.DOWN)) {
-            this.oldCenter.y = this.center.y;
-            this.center.y += 2;
+            this.move = movement(this.game.getBackgroundPositionX() + (this.center.x - this.gameSize.x / 2), 
+                                 this.game.getBackgroundPositionY() + (this.center.y - this.gameSize.y / 2));           
+
+            if (this.move === 1) {
+                    this.oldCenter.y = this.center.y;
+                    this.center.y += 2;
+            }
+            else if (this.move === 3) {
+                this.game.shiftBackgroundY(-1);
+                // this.center.y = 230;
+            }
+            else if (this.move === 0) {
+                this.game.changeBackgroundY(-2);
+            }
+            else {
+                this.center.y = this.oldCenter.y;
+            }
             
             if (this.spriteDirection !== "down") {
                 this.spriteDirection = 'down';
@@ -73,6 +107,8 @@ class Player {
                 this.walkSpritePosition = { x: this.spriteKey.WALK_FRONT_X, y: this.spriteKey.WALK_Y };
             }
         }
+
+        
     }
 
     draw() {
@@ -99,7 +135,6 @@ class Player {
     }
 
     animateWalk(reset, sizeOffset = 0, positionOffset = [0,0,0,0,0,0,0,0,0,0]) {
-        console.log(this.walkSpritePosition.x + positionOffset[parseInt(this.walkCurrentFrame / this.walkSpeed)]);
         const img = document.getElementById("link");
         this.game.screen.drawImage(img, 
                                    this.walkSpritePosition.x + positionOffset[parseInt(this.walkCurrentFrame / this.walkSpeed)], 
@@ -117,5 +152,9 @@ class Player {
             this.walkSpritePosition.x = reset;
             this.walkCurrentFrame = 0
         }
+    }
+
+    animateAttack() {
+        
     }
 };

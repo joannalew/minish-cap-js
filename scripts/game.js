@@ -3,12 +3,15 @@ class Game {
         this.canvas = document.getElementById(canvasId);
         this.screen = this.canvas.getContext('2d');
         this.gameSize = { x: this.canvas.width, y: this.canvas.height };
-        this.mapId = 0;
+        this.mapId = "m00";
 
         this.bodies = [];
         this.player = new Player(this, this.gameSize);
         this.envBodies = loadMap(this, this.gameSize, this.mapId);
-        this.bodies = this.bodies.concat(this.player, this.envBodies.walls, this.envBodies.doors);
+        this.bodies = this.bodies.concat(this.player, 
+                                         this.envBodies.walls, 
+                                         this.envBodies.doors,
+                                         this.envBodies.enemies);
 
         this.spritePosition = { x: -3744, y: -1460 };
 
@@ -42,6 +45,7 @@ class Game {
                     this.spritePosition.x += this.gameSize.x * this.bodies[i].mapX;
                     this.spritePosition.y += this.gameSize.y * this.bodies[i].mapY;
                     this.canvas.style.backgroundPosition = `${this.spritePosition.x}px ${this.spritePosition.y}px`;
+                    this.mapId = this.bodies[i].mapId;
                     this.player.center.y -= 4;
                     this.resetMap();
                 }
@@ -66,11 +70,46 @@ class Game {
 
     resetMap() {
         this.bodies.splice(1);
-        this.mapId += 1;
-        this.bodies.concat(loadMap(this, this.gameSize, this.mapId));
+        this.envBodies = loadMap(this, this.gameSize, this.mapId);
+        this.bodies = this.bodies.concat(this.envBodies.walls, 
+                                         this.envBodies.doors,
+                                         this.envBodies.enemies);
+    }
+
+    changeBackgroundX(num) {
+        this.spritePosition.x += num;
+        this.canvas.style.backgroundPosition = `${this.spritePosition.x}px ${this.spritePosition.y}px`;
+    }
+
+    changeBackgroundY(num) {
+        this.spritePosition.y += num;
+        this.canvas.style.backgroundPosition = `${this.spritePosition.x}px ${this.spritePosition.y}px`;
+    }
+
+    shiftBackgroundX(num, offset = 0) {
+        this.spritePosition.x += this.gameSize.x * num + offset;
+        this.canvas.style.backgroundPosition = `${this.spritePosition.x}px ${this.spritePosition.y}px`;
+    }
+
+    shiftBackgroundY(num, offset = 0) {
+        this.spritePosition.y += this.gameSize.y * num + offset;
+        this.canvas.style.backgroundPosition = `${this.spritePosition.x}px ${this.spritePosition.y}px`;
+    }
+
+    getBackgroundPositionX() {
+        return this.spritePosition.x * -1;
+    }
+
+    getBackgroundPositionY() {
+        return this.spritePosition.y * -1;
     }
 }
 
 window.onload = function() {
-    new Game('screen');
-}
+    const g = new Game('screen');
+
+    window.getPosition = function() {
+        console.log(g.getBackgroundPositionX() + (g.player.center.x - g.player.gameSize.x / 2), 
+                    g.getBackgroundPositionY() + (g.player.center.y - g.player.gameSize.y / 2));
+    }
+};

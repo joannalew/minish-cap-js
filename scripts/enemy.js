@@ -1,5 +1,5 @@
 class Enemy {
-    constructor(game, gameSize, center, direction) {
+    constructor(game, gameSize, direction) {
         this.game = game;
         this.gameSize = gameSize;
         this.size = { x: 32, y: 32 };
@@ -9,7 +9,7 @@ class Enemy {
         this.spritePosition = {};
         this.spriteDirection = direction;
         this.damage = 1;
-        this.health = 4;
+        this.health = 3;
     }
 
     update() {
@@ -17,11 +17,19 @@ class Enemy {
     }
 
     draw() {
-        const img = document.getElementById("octorok");
-        this.game.screen.drawImage(img,
-                                   10, 15,
-                                   this.size.x / 2, this.size.y / 2,
-                                   this.center.x - this.size.x / 2, this.center.y - this.size.y / 2,
-                                   this.size.x, this.size.y);
+        // const img = document.getElementById("octorok");
+        // this.game.screen.drawImage(img,
+        //                            10, 15,
+        //                            this.size.x / 2, this.size.y / 2,
+        //                            this.center.x - this.size.x / 2, this.center.y - this.size.y / 2,
+        //                            this.size.x, this.size.y);
+
+        this.game.screen.fillRect(this.center.x - this.size.x / 2, 
+                                  this.center.y - this.size.y / 2,
+                                  this.size.x, this.size.y);
+    }
+
+    animate() {
+        
     }
 }
