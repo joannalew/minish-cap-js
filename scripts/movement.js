@@ -16,14 +16,12 @@ for (let i = 3718; i < 3780; i++) {
     }
 }
 
-
 // map 0: on castle drawbridge, move link ==> map change
 for (let i = 3718; i < 3780; i++){
     for (let j = 1500; j < 1542; j++) {
         grid[i][j] = 1;
     }
 }
-
 
 // map 0: left drawbridge border
 for (let i = 3690; i < 3708; i++) {
@@ -81,7 +79,12 @@ for (let i = 3572; i < 3666; i++) {
     }
 }
 
-// map 2: right fountain
+// map 1: right fountain
+for (let i = 3824; i < 3922; i++) {
+    for (let j = 776; j < 882; j++) { 
+        grid[i][j] = 2;
+    }
+}
 
 // map 1: left top bush
 for (let i = 3470; i < 3568; i++) {
@@ -90,7 +93,22 @@ for (let i = 3470; i < 3568; i++) {
     }
 }
 
+// map 1: left bottom bush
 for (let i = 3470; i < 3568; i++) {
+    for (let j = 940; j < 1020; j++) {
+        grid[i][j] = 2;
+    }
+}
+
+// map 1: right top bush
+for (let i = 3924; i < 4022; i++) {
+    for (let j = 840; j < 920; j++) {
+        grid[i][j] = 2;
+    }
+}
+
+// map 1: right bottom bush
+for (let i = 3924; i < 4022; i++) {
     for (let j = 940; j < 1020; j++) {
         grid[i][j] = 2;
     }

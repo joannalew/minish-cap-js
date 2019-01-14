@@ -12,7 +12,7 @@ class Game {
         this.bodies = this.bodies.concat(this.player, this.envBodies.enemies);
 
         this.spritePosition = { x: -3744, y: -1460 };
-        this.knockbackStep = 4;
+        this.knockbackStep = 30;
 
         this.tick = this.tick.bind(this);
         this.update = this.update.bind(this);
@@ -37,10 +37,10 @@ class Game {
             if (this.checkCollision(this.bodies[0], this.bodies[i])) {
                 this.player.health -= 1;
                 console.log(this.player.health);
-                if (this.player.spriteDirection === "down") { this.player.spritePosition.y += this.knockbackStep; }
-                else if (this.player.spriteDirection === "up") { this.player.spritePosition.y -= this.knockbackStep; }
-                else if (this.player.spriteDirection === "left") { this.player.spritePosition.x += this.knockbackStep; }
-                else { this.player.spritePosition.x -= this.knockbackStep; }
+                if (this.player.spriteDirection === "down") { this.player.center.y -= this.knockbackStep; }
+                else if (this.player.spriteDirection === "up") { this.player.center.y += this.knockbackStep; }
+                else if (this.player.spriteDirection === "left") { this.player.center.x += this.knockbackStep; }
+                else { this.player.center.x -= this.knockbackStep; }
             }
         }
     }
@@ -77,13 +77,21 @@ class Game {
     }
 
     setBackgroundX(num) {
+        const diff = num - this.spritePosition.x;
         this.spritePosition.x = num;
         this.canvas.style.backgroundPosition = `${this.spritePosition.x}px ${this.spritePosition.y}px`;
+        for (let i = 1; i < this.bodies.length; i++) {
+            this.bodies[i].center.x += diff;
+        }
     }
 
     setBackgroundY(num) {
+        const diff = num - this.spritePosition.y;
         this.spritePosition.y = num;
         this.canvas.style.backgroundPosition = `${this.spritePosition.x}px ${this.spritePosition.y}px`;
+        for (let i = 1; i < this.bodies.length; i++) {
+            this.bodies[i].center.y += diff;
+        }
     }
 
     getBackgroundPositionX() {

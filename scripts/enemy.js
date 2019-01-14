@@ -3,7 +3,7 @@ class Enemy {
         this.game = game;
         this.gameSize = gameSize;
         this.size = { x: 38, y: 34 };
-        this.center = { x: gameSize.x / 2 + offsetX, y: gameSize.y /2 + offsetY};
+        this.center = { x: gameSize.x / 2 + offsetX, y: gameSize.y / 2 + offsetY };
         this.oldCenter = { x: this.center.x, y: this.center.y };
 
         this.spriteKey = {
@@ -40,41 +40,21 @@ class Enemy {
             const direction = parseInt(Math.random() * 4);
             this.changeDirectionCount = 5;
 
-            if (direction === 0) { 
-                if (this.spriteDirection === "down") {
-                    this.center.y += this.stepSize;
-                }
-                else {
-                    this.spritePosition.y = this.spriteKey.WALK_FRONT_Y; 
-                    this.spriteDirection = "down";
-                }
+            if (direction === 0) {
+                this.spritePosition.y = this.spriteKey.WALK_FRONT_Y;
+                this.spriteDirection = "down";
             }
-            else if (direction === 1) { 
-                if (this.spriteDirection === "up") {
-                    this.center.y -= this.stepSize;
-                }
-                else {
-                    this.spritePosition.y = this.spriteKey.WALK_BACK_Y; 
-                    this.spriteDirection = "up";
-                }
+            else if (direction === 1) {
+                this.spritePosition.y = this.spriteKey.WALK_BACK_Y;
+                this.spriteDirection = "up";
             }
             else if (direction === 2) {
-                if (this.spriteDirection === "left") {
-                    this.center.x -= this.stepSize;
-                }
-                else {
-                    this.spritePosition.y = this.spriteKey.WALK_LEFT_Y;
-                    this.spriteDirection = "left";
-                }
+                this.spritePosition.y = this.spriteKey.WALK_LEFT_Y;
+                this.spriteDirection = "left";
             }
-            else { 
-                if (this.spriteDirection === "right") {
-                    this.center.x += this.stepSize;
-                }
-                else {
-                    this.spritePosition.y = this.spriteKey.WALK_RIGHT_Y; 
-                    this.spriteDirection = "right"
-                }
+            else {
+                this.spritePosition.y = this.spriteKey.WALK_RIGHT_Y;
+                this.spriteDirection = "right"
             }
         }
         else if (this.walkCurrentFrame === this.walkTotalFrames - 1) {
