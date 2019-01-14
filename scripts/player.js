@@ -20,8 +20,12 @@ class Player {
             WALK_LEFT_X: 350,
             WALK_BACK_X: 683,
             WALK_RIGHT_X: 1013,
-            WALK_Y: 76
+            WALK_Y: 76,
+            ATTACK_FRONT_X: 14,
+            ATTACK_Y: 113
         }
+
+        this.spriteImage = document.getElementById("link");
         this.spritePosition = { x: this.spriteKey.STAND_FRONT_X, y: this.spriteKey.STAND_Y };
         this.spriteDirection = "down";
 
@@ -30,6 +34,11 @@ class Player {
         this.walkTotalFrames = 10 * this.walkSpeed;
         this.walkCurrentFrame = 0;
         this.walkSpritePosition = { x: this.spriteKey.WALK_FRONT_X, y: this.spriteKey.WALK_Y };
+
+        this.attackSpeed = 5;
+        this.attackTotalFramesFB = 5 * this.attackSpeed;
+        this.attackCurrentFrame = 0;
+        this.attackSpritePosition = { x: this.spriteKey.ATTACK_FRONT_X, y: this.spriteKey.ATTACK_Y };
 
         this.keyboarder = new Keyboarder();
         this.update = this.update.bind(this);
@@ -40,112 +49,116 @@ class Player {
     }
 
     update() {
-        if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
-            this.move = movement(this.game.getBackgroundPositionX() + (this.center.x - this.gameSize.x / 2) - 2,
-                                 this.game.getBackgroundPositionY() + (this.center.y - this.gameSize.y / 2));
+        if (this.attackCurrentFrame === 0) {
+            if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
+                this.move = movement(this.game.getBackgroundPositionX() + (this.center.x - this.gameSize.x / 2) - 2,
+                    this.game.getBackgroundPositionY() + (this.center.y - this.gameSize.y / 2));
 
-            if (this.move === 1) {
-                this.oldCenter.x = this.center.x;
-                this.center.x -= this.stepSize;
-            }
-            else if (this.move === 0) {
-                if (this.center.x > this.gameSize.x / 2) {
+                if (this.move === 1) {
+                    this.oldCenter.x = this.center.x;
                     this.center.x -= this.stepSize;
                 }
-                else {
-                    this.game.changeBackgroundX(this.stepSize);
+                else if (this.move === 0) {
+                    if (this.center.x > this.gameSize.x / 2) {
+                        this.center.x -= this.stepSize;
+                    }
+                    else {
+                        this.game.changeBackgroundX(this.stepSize);
+                    }
+                }
+
+                if (this.spriteDirection !== "left") {
+                    this.spriteDirection = 'left';
+                    this.spritePosition = { x: this.spriteKey.STAND_LEFT_X, y: this.spriteKey.STAND_Y };
+                    this.walkSpritePosition = { x: this.spriteKey.WALK_LEFT_X, y: this.spriteKey.WALK_Y };
                 }
             }
+            else if (this.keyboarder.isDown(this.keyboarder.KEYS.RIGHT)) {
+                this.move = movement(this.game.getBackgroundPositionX() + (this.center.x - this.gameSize.x / 2) + 2,
+                    this.game.getBackgroundPositionY() + (this.center.y - this.gameSize.y / 2));
 
-            if (this.spriteDirection !== "left") {
-                this.spriteDirection = 'left';
-                this.spritePosition = { x: this.spriteKey.STAND_LEFT_X, y: this.spriteKey.STAND_Y };
-                this.walkSpritePosition = { x: this.spriteKey.WALK_LEFT_X, y: this.spriteKey.WALK_Y };
-            }
-        }
-        else if (this.keyboarder.isDown(this.keyboarder.KEYS.RIGHT)) {
-            this.move = movement(this.game.getBackgroundPositionX() + (this.center.x - this.gameSize.x / 2) + 2,
-                                 this.game.getBackgroundPositionY() + (this.center.y - this.gameSize.y / 2));
-
-            if (this.move === 1) {
-                this.oldCenter.x = this.center.x;
-                this.center.x += this.stepSize;
-            }
-            else if (this.move === 0) {
-                if (this.center.x < this.gameSize.x / 2) {
+                if (this.move === 1) {
+                    this.oldCenter.x = this.center.x;
                     this.center.x += this.stepSize;
                 }
-                else {
-                    this.game.changeBackgroundX(-1 * this.stepSize);
+                else if (this.move === 0) {
+                    if (this.center.x < this.gameSize.x / 2) {
+                        this.center.x += this.stepSize;
+                    }
+                    else {
+                        this.game.changeBackgroundX(-1 * this.stepSize);
+                    }
+                }
+
+                if (this.spriteDirection !== "right") {
+                    this.spriteDirection = 'right';
+                    this.spritePosition = { x: this.spriteKey.STAND_RIGHT_X, y: this.spriteKey.STAND_Y };
+                    this.walkSpritePosition = { x: this.spriteKey.WALK_RIGHT_X, y: this.spriteKey.WALK_Y };
                 }
             }
+            else if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) {
+                this.move = movement(this.game.getBackgroundPositionX() + (this.center.x - this.gameSize.x / 2),
+                    this.game.getBackgroundPositionY() + (this.center.y - this.gameSize.y / 2) - this.stepSize);
 
-            if (this.spriteDirection !== "right") {
-                this.spriteDirection = 'right';
-                this.spritePosition = { x: this.spriteKey.STAND_RIGHT_X, y: this.spriteKey.STAND_Y };
-                this.walkSpritePosition = { x: this.spriteKey.WALK_RIGHT_X, y: this.spriteKey.WALK_Y };
-            }
-        }
-        else if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) {
-            this.move = movement(this.game.getBackgroundPositionX() + (this.center.x - this.gameSize.x / 2),
-                                 this.game.getBackgroundPositionY() + (this.center.y - this.gameSize.y / 2) - this.stepSize);
-
-            if (this.move === 1) {
-                this.oldCenter.y = this.center.y;
-                this.center.y += -1 * this.stepSize;
-            }
-            else if (this.move === 3) {
-                this.game.setBackgroundY(-1120);
-                this.center.y = 230;
-            }
-            else if (this.move === 0) {
-                if (this.center.y > this.gameSize.y / 2) {
+                if (this.move === 1) {
+                    this.oldCenter.y = this.center.y;
                     this.center.y += -1 * this.stepSize;
                 }
-                else {
-                    this.game.changeBackgroundY(this.stepSize);
+                else if (this.move === 3) {
+                    this.game.setBackgroundY(-1120);
+                    this.center.y = 230;
+                }
+                else if (this.move === 0) {
+                    if (this.center.y > this.gameSize.y / 2) {
+                        this.center.y += -1 * this.stepSize;
+                    }
+                    else {
+                        this.game.changeBackgroundY(this.stepSize);
+                    }
+                }
+
+                if (this.spriteDirection !== "up") {
+                    this.spriteDirection = 'up';
+                    this.spritePosition = { x: this.spriteKey.STAND_BACK_X, y: this.spriteKey.STAND_Y };
+                    this.walkSpritePosition = { x: this.spriteKey.WALK_BACK_X, y: this.spriteKey.WALK_Y };
                 }
             }
+            else if (this.keyboarder.isDown(this.keyboarder.KEYS.DOWN)) {
+                this.move = movement(this.game.getBackgroundPositionX() + (this.center.x - this.gameSize.x / 2),
+                    this.game.getBackgroundPositionY() + (this.center.y - this.gameSize.y / 2) + 2);
 
-            if (this.spriteDirection !== "up") {
-                this.spriteDirection = 'up';
-                this.spritePosition = { x: this.spriteKey.STAND_BACK_X, y: this.spriteKey.STAND_Y };
-                this.walkSpritePosition = { x: this.spriteKey.WALK_BACK_X, y: this.spriteKey.WALK_Y };
-            }
-        }
-        else if (this.keyboarder.isDown(this.keyboarder.KEYS.DOWN)) {
-            this.move = movement(this.game.getBackgroundPositionX() + (this.center.x - this.gameSize.x / 2),
-                                 this.game.getBackgroundPositionY() + (this.center.y - this.gameSize.y / 2) + 2);
-
-            if (this.move === 1) {
-                this.oldCenter.y = this.center.y;
-                this.center.y += this.stepSize;
-            }
-            else if (this.move === 3) {
-                this.game.setBackgroundY(-1460);
-                this.center.y = 130;
-            }
-            else if (this.move === 0) {
-                if (this.center.y < this.gameSize.y / 2) {
+                if (this.move === 1) {
+                    this.oldCenter.y = this.center.y;
                     this.center.y += this.stepSize;
                 }
-                else {
-                    this.game.changeBackgroundY(-1 * this.stepSize);
+                else if (this.move === 3) {
+                    this.game.setBackgroundY(-1460);
+                    this.center.y = 130;
+                }
+                else if (this.move === 0) {
+                    if (this.center.y < this.gameSize.y / 2) {
+                        this.center.y += this.stepSize;
+                    }
+                    else {
+                        this.game.changeBackgroundY(-1 * this.stepSize);
+                    }
+                }
+
+                if (this.spriteDirection !== "down") {
+                    this.spriteDirection = 'down';
+                    this.spritePosition = { x: this.spriteKey.STAND_FRONT_X, y: this.spriteKey.STAND_Y };
+                    this.walkSpritePosition = { x: this.spriteKey.WALK_FRONT_X, y: this.spriteKey.WALK_Y };
                 }
             }
-
-            if (this.spriteDirection !== "down") {
-                this.spriteDirection = 'down';
-                this.spritePosition = { x: this.spriteKey.STAND_FRONT_X, y: this.spriteKey.STAND_Y };
-                this.walkSpritePosition = { x: this.spriteKey.WALK_FRONT_X, y: this.spriteKey.WALK_Y };
-            }
         }
-
-
     }
 
     draw() {
-        if (this.keyboarder.isDown(this.keyboarder.KEYS.DOWN)) {
+        if (this.spriteDirection === "down" &&
+            (this.keyboarder.isDown(this.keyboarder.KEYS.SPACE) || this.attackCurrentFrame != 0)) {
+            this.animateAttackFB(this.spriteKey.ATTACK_FRONT_X);
+        }
+        else if (this.keyboarder.isDown(this.keyboarder.KEYS.DOWN)) {
             this.animateWalk(this.spriteKey.WALK_FRONT_X);
         }
         else if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) {
@@ -158,8 +171,7 @@ class Player {
             this.animateWalk(this.spriteKey.WALK_RIGHT_X, 6, [0, 0, 0, 0, -1, -1, -1, 0, 1, 1]);
         }
         else {
-            const img = document.getElementById("link");
-            this.game.screen.drawImage(img,
+            this.game.screen.drawImage(this.spriteImage,
                 this.spritePosition.x, this.spritePosition.y,
                 this.size.x / 2, this.size.y / 2,
                 this.center.x - this.size.x / 2, this.center.y - this.size.y / 2,
@@ -168,8 +180,7 @@ class Player {
     }
 
     animateWalk(reset, sizeOffset = 0, positionOffset = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]) {
-        const img = document.getElementById("link");
-        this.game.screen.drawImage(img,
+        this.game.screen.drawImage(this.spriteImage,
             this.walkSpritePosition.x + positionOffset[parseInt(this.walkCurrentFrame / this.walkSpeed)],
             this.walkSpritePosition.y,
             this.size.x / 2 + sizeOffset, this.size.y / 2 + sizeOffset,
@@ -183,12 +194,31 @@ class Player {
 
         if (this.walkCurrentFrame === this.walkTotalFrames) {
             this.walkSpritePosition.x = reset;
-            this.walkCurrentFrame = 0
+            this.walkCurrentFrame = 0;
         }
     }
 
-    animateAttack() {
+    animateAttackFB(reset, positionOffset = [0, 0, 1, 2, 2]) {
+        console.log(this.attackCurrentFrame, this.attackTotalFramesFB,
+            this.attackSpritePosition.x + positionOffset[parseInt(this.attackCurrentFrame / this.attackSpeed)],
+            this.attackSpritePosition.y);
 
+        this.game.screen.drawImage(this.spriteImage,
+            this.attackSpritePosition.x + positionOffset[parseInt(this.attackCurrentFrame / this.attackSpeed)],
+            this.attackSpritePosition.y,
+            this.size.x / 2, this.size.y / 2,
+            this.center.x - this.size.x / 2, this.center.y - this.size.y / 2,
+            this.size.x, this.size.y);
+        this.attackCurrentFrame += 1;
+
+        if (this.attackCurrentFrame % this.attackSpeed === 0) {
+            this.attackSpritePosition.x += 32;
+        }
+
+        if (this.attackCurrentFrame === this.attackTotalFramesFB) {
+            this.attackSpritePosition.x = reset;
+            this.attackCurrentFrame = 0;
+        }
     }
 
     getLocationX() {

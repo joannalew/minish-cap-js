@@ -15,7 +15,9 @@ class Enemy {
             WALK_X2: 40
         }
 
+        this.spriteImage = document.getElementById('octorok');
         this.spritePosition = { x: this.spriteKey.WALK_X1, y: this.spriteKey.WALK_FRONT_Y };
+
         this.walkCurrentFrame = 0;
         this.walkSpeed = 20;
         this.walkTotalFrames = 2 * this.walkSpeed;
@@ -70,10 +72,9 @@ class Enemy {
     }
 
     animateWalk() {
-        const img = document.getElementById('octorok');
         const offset = this.spriteDirection === "right" ? -4 : 0;
 
-        this.game.screen.drawImage(img,
+        this.game.screen.drawImage(this.spriteImage,
             this.spritePosition.x, this.spritePosition.y,
             this.size.x / 2, this.size.y / 2,
             this.center.x - this.size.x / 2, this.center.y - this.size.y / 2,
