@@ -86,13 +86,13 @@ class Game {
         this.canvas.style.backgroundPosition = `${this.spritePosition.x}px ${this.spritePosition.y}px`;
     }
 
-    shiftBackgroundX(num, offset = 0) {
-        this.spritePosition.x += this.gameSize.x * num + offset;
+    setBackgroundX(num) {
+        this.spritePosition.x = num;
         this.canvas.style.backgroundPosition = `${this.spritePosition.x}px ${this.spritePosition.y}px`;
     }
 
-    shiftBackgroundY(num, offset = 0) {
-        this.spritePosition.y += this.gameSize.y * num + offset;
+    setBackgroundY(num) {
+        this.spritePosition.y = num;
         this.canvas.style.backgroundPosition = `${this.spritePosition.x}px ${this.spritePosition.y}px`;
     }
 
@@ -109,7 +109,13 @@ window.onload = function() {
     const g = new Game('screen');
 
     window.getPosition = function() {
-        console.log(g.getBackgroundPositionX() + (g.player.center.x - g.player.gameSize.x / 2), 
-                    g.getBackgroundPositionY() + (g.player.center.y - g.player.gameSize.y / 2));
-    }
+        console.log('gx', g.getBackgroundPositionX(),
+                    'gy', g.getBackgroundPositionY(),
+                    'px', g.player.center.x - g.gameSize.x / 2,
+                    'py', g.player.center.y - g.gameSize.y / 2,
+                    'x', g.getBackgroundPositionX() + (g.player.center.x - g.gameSize.x / 2), 
+                    'y', g.getBackgroundPositionY() + (g.player.center.y - g.gameSize.y / 2),
+                    'grid', movement(g.getBackgroundPositionX() + (g.player.center.x - g.gameSize.x),
+                             g.getBackgroundPositionY() + (g.player.center.y - g.gameSize.y)));
+    };
 };

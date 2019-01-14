@@ -2,17 +2,17 @@ class Player {
     constructor(game, gameSize) {
         this.game = game;
         this.gameSize = gameSize;
-        this.size = {x: 36, y: 48};
+        this.size = { x: 36, y: 48 };
         this.center = { x: gameSize.x / 2, y: gameSize.y / 2 };
         this.oldCenter = { x: this.center.x, y: this.center.y };
-    
+
         this.move = 0;
         this.health = 12;
         this.damage = 1;
 
         this.spriteKey = {
             STAND_FRONT_X: 15,
-            STAND_LEFT_X: 51, 
+            STAND_LEFT_X: 51,
             STAND_BACK_X: 79,
             STAND_RIGHT_X: 104,
             STAND_Y: 9,
@@ -37,10 +37,22 @@ class Player {
     }
 
     update() {
-        // console.log(this.game.getBackgroundPositionX(), this.game.getBackgroundPositionY());
-
         if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
-            this.game.changeBackgroundX(2);
+            this.move = movement(this.game.getBackgroundPositionX() + (this.center.x - this.gameSize.x / 2) - 2,
+                                 this.game.getBackgroundPositionY() + (this.center.y - this.gameSize.y / 2));
+
+            if (this.move === 1) {
+                this.oldCenter.x = this.center.x;
+                this.center.x -= 2;
+            }
+            else if (this.move === 0) {
+                if (this.center.x > this.gameSize.x / 2) {
+                    this.center.x -= 2;
+                }
+                else {
+                    this.game.changeBackgroundX(2);
+                }
+            }
 
             if (this.spriteDirection !== "left") {
                 this.spriteDirection = 'left';
@@ -49,7 +61,21 @@ class Player {
             }
         }
         else if (this.keyboarder.isDown(this.keyboarder.KEYS.RIGHT)) {
-            this.game.changeBackgroundX(-2);
+            this.move = movement(this.game.getBackgroundPositionX() + (this.center.x - this.gameSize.x / 2) + 2,
+                                 this.game.getBackgroundPositionY() + (this.center.y - this.gameSize.y / 2));
+
+            if (this.move === 1) {
+                this.oldCenter.x = this.center.x;
+                this.center.x += 2;
+            }
+            else if (this.move === 0) {
+                if (this.center.x < this.gameSize.x / 2) {
+                    this.center.x += 2;
+                }
+                else {
+                    this.game.changeBackgroundX(-2);
+                }
+            }
 
             if (this.spriteDirection !== "right") {
                 this.spriteDirection = 'right';
@@ -57,23 +83,25 @@ class Player {
                 this.walkSpritePosition = { x: this.spriteKey.WALK_RIGHT_X, y: this.spriteKey.WALK_Y };
             }
         }
-        else if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) { 
-            this.move = movement(this.game.getBackgroundPositionX() + (this.center.x - this.gameSize.x / 2), 
-                                 this.game.getBackgroundPositionY() + (this.center.y - this.gameSize.y / 2));           
+        else if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) {
+            this.move = movement(this.game.getBackgroundPositionX() + (this.center.x - this.gameSize.x / 2),
+                                 this.game.getBackgroundPositionY() + (this.center.y - this.gameSize.y / 2) - 2);
 
             if (this.move === 1) {
-                    this.oldCenter.y = this.center.y;
-                    this.center.y += -2;
+                this.oldCenter.y = this.center.y;
+                this.center.y += -2;
             }
             else if (this.move === 3) {
-                this.game.shiftBackgroundY(1, 24);
-                // this.center.y = 230;
+                this.game.setBackgroundY(-1120);
+                this.center.y = 230;
             }
             else if (this.move === 0) {
-                this.game.changeBackgroundY(2);
-            }
-            else {
-                this.center.y = this.oldCenter.y;
+                if (this.center.y > this.gameSize.y / 2) {
+                    this.center.y += -2;
+                }
+                else {
+                    this.game.changeBackgroundY(2);
+                }
             }
 
             if (this.spriteDirection !== "up") {
@@ -83,24 +111,26 @@ class Player {
             }
         }
         else if (this.keyboarder.isDown(this.keyboarder.KEYS.DOWN)) {
-            this.move = movement(this.game.getBackgroundPositionX() + (this.center.x - this.gameSize.x / 2), 
-                                 this.game.getBackgroundPositionY() + (this.center.y - this.gameSize.y / 2));           
+            this.move = movement(this.game.getBackgroundPositionX() + (this.center.x - this.gameSize.x / 2),
+                                 this.game.getBackgroundPositionY() + (this.center.y - this.gameSize.y / 2) + 2);
 
             if (this.move === 1) {
-                    this.oldCenter.y = this.center.y;
-                    this.center.y += 2;
+                this.oldCenter.y = this.center.y;
+                this.center.y += 2;
             }
             else if (this.move === 3) {
-                this.game.shiftBackgroundY(-1);
-                // this.center.y = 230;
+                this.game.setBackgroundY(-1460);
+                this.center.y = 130;
             }
             else if (this.move === 0) {
-                this.game.changeBackgroundY(-2);
+                if (this.center.y < this.gameSize.y / 2) {
+                    this.center.y += 2;
+                }
+                else {
+                    this.game.changeBackgroundY(-2);
+                }
             }
-            else {
-                this.center.y = this.oldCenter.y;
-            }
-            
+
             if (this.spriteDirection !== "down") {
                 this.spriteDirection = 'down';
                 this.spritePosition = { x: this.spriteKey.STAND_FRONT_X, y: this.spriteKey.STAND_Y };
@@ -108,7 +138,7 @@ class Player {
             }
         }
 
-        
+
     }
 
     draw() {
@@ -126,22 +156,22 @@ class Player {
         }
         else {
             const img = document.getElementById("link");
-            this.game.screen.drawImage(img, 
-                                    this.spritePosition.x, this.spritePosition.y,
-                                    this.size.x / 2, this.size.y / 2,
-                                    this.center.x - this.size.x / 2, this.center.y - this.size.y / 2,
-                                    this.size.x, this.size.y);
+            this.game.screen.drawImage(img,
+                this.spritePosition.x, this.spritePosition.y,
+                this.size.x / 2, this.size.y / 2,
+                this.center.x - this.size.x / 2, this.center.y - this.size.y / 2,
+                this.size.x, this.size.y);
         }
     }
 
-    animateWalk(reset, sizeOffset = 0, positionOffset = [0,0,0,0,0,0,0,0,0,0]) {
+    animateWalk(reset, sizeOffset = 0, positionOffset = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]) {
         const img = document.getElementById("link");
-        this.game.screen.drawImage(img, 
-                                   this.walkSpritePosition.x + positionOffset[parseInt(this.walkCurrentFrame / this.walkSpeed)], 
-                                   this.walkSpritePosition.y,
-                                   this.size.x / 2 + sizeOffset, this.size.y / 2 + sizeOffset,
-                                   this.center.x - this.size.x / 2, this.center.y - this.size.y / 2,
-                                   this.size.x + sizeOffset * 2, this.size.y + sizeOffset * 2);
+        this.game.screen.drawImage(img,
+            this.walkSpritePosition.x + positionOffset[parseInt(this.walkCurrentFrame / this.walkSpeed)],
+            this.walkSpritePosition.y,
+            this.size.x / 2 + sizeOffset, this.size.y / 2 + sizeOffset,
+            this.center.x - this.size.x / 2, this.center.y - this.size.y / 2,
+            this.size.x + sizeOffset * 2, this.size.y + sizeOffset * 2);
         this.walkCurrentFrame += 1
 
         if (this.walkCurrentFrame % this.walkSpeed === 0) {
@@ -155,6 +185,6 @@ class Player {
     }
 
     animateAttack() {
-        
+
     }
 };

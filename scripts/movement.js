@@ -9,8 +9,8 @@ let grid = [...Array(rows)].map(e => Array(cols).fill(0));
 // 3 - shift map
 
 
-// map 0: on castle drawbridge, turn gate into door ==> map change
-for (let i = 3720; i < 3780; i++) {
+// map 0: door on castle drawbridge (top) ==> map change
+for (let i = 3718; i < 3780; i++) {
     for (let j = 1416; j < 1428; j++) {
         grid[i][j] = 3;
     }
@@ -18,9 +18,38 @@ for (let i = 3720; i < 3780; i++) {
 
 
 // map 0: on castle drawbridge, move link ==> map change
-for (let i = 3720; i < 3780; i++){
-    for (let j = 1428; j < 1542; j++) {
+for (let i = 3718; i < 3780; i++){
+    for (let j = 1500; j < 1542; j++) {
         grid[i][j] = 1;
+    }
+}
+
+
+// map 0: left drawbridge border
+for (let i = 3690; i < 3708; i++) {
+    for (let j = 1394; j < 1512; j++) {
+        grid[i][j] = 2;
+    }
+}
+
+// map 0: gate left border
+for (let i = 3706; i < 3718; i++) {
+    for (let j = 1260; j < 1420; j++) {
+        grid[i][j] = 2;
+    }
+}
+
+// map 0: right drawbridge border
+for (let i = 3782; i < 3808; i++) {
+    for (let j = 1400; j < 1510; j++) {
+        grid[i][j] = 2;
+    }
+}
+
+// map 0: gate right border
+for (let i = 3780; i < 3790; i++) {
+    for (let j = 1266; j < 1418; j++) {
+        grid[i][j] = 2;
     }
 }
 
@@ -31,10 +60,54 @@ for (let i = 3482; i < 4030; i++) {
     }
 }
 
+// map 1: left long flowerbed
+for (let i = 3572; i < 3664; i++) {
+    for (let j = 890; j < 1130; j++) {
+        grid[i][j] = 2;
+    }
+}
+
+// map1: right long flowerbed
+for (let i = 3824; i < 3920; i++) {
+    for (let j = 890; j < 1130; j++) {
+        grid[i][j] = 2;
+    }
+}
+
+// map 1: left fountain
+for (let i = 3572; i < 3666; i++) {
+    for (let j = 776; j < 882; j++) {
+        grid[i][j] = 2;
+    }
+}
+
+// map 2: right fountain
+
+// map 1: left top bush
+for (let i = 3470; i < 3568; i++) {
+    for (let j = 840; j < 920; j++) {
+        grid[i][j] = 2;
+    }
+}
+
+for (let i = 3470; i < 3568; i++) {
+    for (let j = 940; j < 1020; j++) {
+        grid[i][j] = 2;
+    }
+}
+
+
 // map 1: on castle steps, move link ==> map change
-for (let i = 3284; i < 4200; i++) {
-    for (let j = 1072; j < 1226; j++) {
+for (let i = 3694; i < 3784; i++) {
+    for (let j = 1100; j < 1226; j++) {
         grid[i][j] = 1;
+    }
+}
+
+// map 1: door on castle gate (bottom) ==> map change
+for (let i = 3710; i < 3782; i++) {
+    for (let j = 1210; j < 1230; j++) {
+        grid[i][j] = 3;
     }
 }
 
