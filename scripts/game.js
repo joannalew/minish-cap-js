@@ -12,12 +12,12 @@ class Game {
         this.bodies = this.bodies.concat(this.player, this.envBodies.enemies);
 
         this.spritePosition = { x: -3744, y: -1460 };
+        this.knockbackStep = 4;
 
         this.tick = this.tick.bind(this);
         this.update = this.update.bind(this);
         this.draw = this.draw.bind(this);
         this.checkCollision = this.checkCollision.bind(this);
-        this.resetMap = this.resetMap.bind(this);
 
         this.tick();
     }
@@ -37,10 +37,10 @@ class Game {
             if (this.checkCollision(this.bodies[0], this.bodies[i])) {
                 this.player.health -= 1;
                 console.log(this.player.health);
-                if (this.player.spriteDirection === "down") { this.player.spritePosition.y += 4; }
-                else if (this.player.spriteDirection === "up") { this.player.spritePosition.y -= 4; }
-                else if (this.player.spriteDirection === "left") { this.player.spritePosition.x += 4; }
-                else { this.player.spritePosition.x -= 4; }
+                if (this.player.spriteDirection === "down") { this.player.spritePosition.y += this.knockbackStep; }
+                else if (this.player.spriteDirection === "up") { this.player.spritePosition.y -= this.knockbackStep; }
+                else if (this.player.spriteDirection === "left") { this.player.spritePosition.x += this.knockbackStep; }
+                else { this.player.spritePosition.x -= this.knockbackStep; }
             }
         }
     }
@@ -60,18 +60,10 @@ class Game {
                  body1.center.y - body1.size.y / 2 > body2.center.y + body2.size.y / 2);
     }
 
-    resetMap() {
-        this.bodies.splice(1);
-        this.envBodies = loadMap(this, this.gameSize, this.mapId);
-        this.bodies = this.bodies.concat(this.envBodies.walls, 
-                                         this.envBodies.doors,
-                                         this.envBodies.enemies);
-    }
-
     changeBackgroundX(num) {
         this.spritePosition.x += num;
         this.canvas.style.backgroundPosition = `${this.spritePosition.x}px ${this.spritePosition.y}px`;
-        for (let i = 0; i < this.bodies.length; i++) {
+        for (let i = 1; i < this.bodies.length; i++) {
             this.bodies[i].center.x += num;
         }
     }
@@ -79,7 +71,7 @@ class Game {
     changeBackgroundY(num) {
         this.spritePosition.y += num;
         this.canvas.style.backgroundPosition = `${this.spritePosition.x}px ${this.spritePosition.y}px`;
-        for (let i = 0; i < this.bodies.length; i++) {
+        for (let i = 1; i < this.bodies.length; i++) {
             this.bodies[i].center.y += num;
         }
     }

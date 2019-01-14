@@ -26,6 +26,7 @@ class Player {
         this.spriteDirection = "down";
 
         this.walkSpeed = 3;
+        this.stepSize = 2;
         this.walkTotalFrames = 10 * this.walkSpeed;
         this.walkCurrentFrame = 0;
         this.walkSpritePosition = { x: this.spriteKey.WALK_FRONT_X, y: this.spriteKey.WALK_Y };
@@ -45,14 +46,14 @@ class Player {
 
             if (this.move === 1) {
                 this.oldCenter.x = this.center.x;
-                this.center.x -= 2;
+                this.center.x -= this.stepSize;
             }
             else if (this.move === 0) {
                 if (this.center.x > this.gameSize.x / 2) {
-                    this.center.x -= 2;
+                    this.center.x -= this.stepSize;
                 }
                 else {
-                    this.game.changeBackgroundX(2);
+                    this.game.changeBackgroundX(this.stepSize);
                 }
             }
 
@@ -68,14 +69,14 @@ class Player {
 
             if (this.move === 1) {
                 this.oldCenter.x = this.center.x;
-                this.center.x += 2;
+                this.center.x += this.stepSize;
             }
             else if (this.move === 0) {
                 if (this.center.x < this.gameSize.x / 2) {
-                    this.center.x += 2;
+                    this.center.x += this.stepSize;
                 }
                 else {
-                    this.game.changeBackgroundX(-2);
+                    this.game.changeBackgroundX(-1 * this.stepSize);
                 }
             }
 
@@ -87,11 +88,11 @@ class Player {
         }
         else if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) {
             this.move = movement(this.game.getBackgroundPositionX() + (this.center.x - this.gameSize.x / 2),
-                                 this.game.getBackgroundPositionY() + (this.center.y - this.gameSize.y / 2) - 2);
+                                 this.game.getBackgroundPositionY() + (this.center.y - this.gameSize.y / 2) - this.stepSize);
 
             if (this.move === 1) {
                 this.oldCenter.y = this.center.y;
-                this.center.y += -2;
+                this.center.y += -1 * this.stepSize;
             }
             else if (this.move === 3) {
                 this.game.setBackgroundY(-1120);
@@ -99,10 +100,10 @@ class Player {
             }
             else if (this.move === 0) {
                 if (this.center.y > this.gameSize.y / 2) {
-                    this.center.y += -2;
+                    this.center.y += -1 * this.stepSize;
                 }
                 else {
-                    this.game.changeBackgroundY(2);
+                    this.game.changeBackgroundY(this.stepSize);
                 }
             }
 
@@ -118,7 +119,7 @@ class Player {
 
             if (this.move === 1) {
                 this.oldCenter.y = this.center.y;
-                this.center.y += 2;
+                this.center.y += this.stepSize;
             }
             else if (this.move === 3) {
                 this.game.setBackgroundY(-1460);
@@ -126,10 +127,10 @@ class Player {
             }
             else if (this.move === 0) {
                 if (this.center.y < this.gameSize.y / 2) {
-                    this.center.y += 2;
+                    this.center.y += this.stepSize;
                 }
                 else {
-                    this.game.changeBackgroundY(-2);
+                    this.game.changeBackgroundY(-1 * this.stepSize);
                 }
             }
 
