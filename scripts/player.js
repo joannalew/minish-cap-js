@@ -34,6 +34,8 @@ class Player {
         this.update = this.update.bind(this);
         this.draw = this.draw.bind(this);
         this.animateWalk = this.animateWalk.bind(this);
+        this.getLocationX = this.getLocationX.bind(this);
+        this.getLocationY = this.getLocationY.bind(this);
     }
 
     update() {
@@ -186,5 +188,13 @@ class Player {
 
     animateAttack() {
 
+    }
+
+    getLocationX() {
+        return this.center.x;
+    }
+
+    getLocationY() {
+        return this.center.y;
     }
 };

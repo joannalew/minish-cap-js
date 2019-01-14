@@ -8,10 +8,7 @@ class Game {
         this.bodies = [];
         this.player = new Player(this, this.gameSize);
         this.envBodies = loadMap(this, this.gameSize, this.mapId);
-        this.bodies = this.bodies.concat(this.player, 
-                                         this.envBodies.walls, 
-                                         this.envBodies.doors,
-                                         this.envBodies.enemies);
+        this.bodies = this.bodies.concat(this.player, this.envBodies.enemies);
 
         this.spritePosition = { x: -3744, y: -1460 };
 
@@ -33,23 +30,6 @@ class Game {
     update() {
         for (let i = 0; i < this.bodies.length; i++) {
             this.bodies[i].update();
-        }
-
-        for (let i = 1; i < this.bodies.length; i++){
-            if (this.checkCollision(this.bodies[0], this.bodies[i])) {
-                if (this.bodies[i].constructor.name === "Wall") {
-                    this.player.center.x = this.player.oldCenter.x;
-                    this.player.center.y = this.player.oldCenter.y;
-                }
-                else if (this.bodies[i].constructor.name === "Door") {
-                    this.spritePosition.x += this.gameSize.x * this.bodies[i].mapX;
-                    this.spritePosition.y += this.gameSize.y * this.bodies[i].mapY;
-                    this.canvas.style.backgroundPosition = `${this.spritePosition.x}px ${this.spritePosition.y}px`;
-                    this.mapId = this.bodies[i].mapId;
-                    this.player.center.y -= 4;
-                    this.resetMap();
-                }
-            }
         }
     }
 
