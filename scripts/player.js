@@ -22,6 +22,9 @@ class Player {
             WALK_RIGHT_X: 1013,
             WALK_Y: 76,
             ATTACK_FRONT_X: 14,
+            ATTACK_LEFT_X: 180,
+            ATTACK_BACK_X: 319,
+            ATTACK_RIGHT_X: 498,
             ATTACK_Y: 113
         }
 
@@ -37,6 +40,7 @@ class Player {
 
         this.attackSpeed = 5;
         this.attackTotalFramesFB = 5 * this.attackSpeed;
+        this.attackTotalFramesLR = 4 * this.attackSpeed;
         this.attackCurrentFrame = 0;
         this.attackSpritePosition = { x: this.spriteKey.ATTACK_FRONT_X, y: this.spriteKey.ATTACK_Y };
 
@@ -71,6 +75,7 @@ class Player {
                     this.spriteDirection = 'left';
                     this.spritePosition = { x: this.spriteKey.STAND_LEFT_X, y: this.spriteKey.STAND_Y };
                     this.walkSpritePosition = { x: this.spriteKey.WALK_LEFT_X, y: this.spriteKey.WALK_Y };
+                    this.attackSpritePosition = { x: this.spriteKey.ATTACK_LEFT_X, y: this.spriteKey.ATTACK_Y };
                 }
             }
             else if (this.keyboarder.isDown(this.keyboarder.KEYS.RIGHT)) {
@@ -94,6 +99,7 @@ class Player {
                     this.spriteDirection = 'right';
                     this.spritePosition = { x: this.spriteKey.STAND_RIGHT_X, y: this.spriteKey.STAND_Y };
                     this.walkSpritePosition = { x: this.spriteKey.WALK_RIGHT_X, y: this.spriteKey.WALK_Y };
+                    this.attackSpritePosition = { x: this.spriteKey.ATTACK_RIGHT_X, y: this.spriteKey.ATTACK_Y };
                 }
             }
             else if (this.keyboarder.isDown(this.keyboarder.KEYS.UP)) {
@@ -121,6 +127,7 @@ class Player {
                     this.spriteDirection = 'up';
                     this.spritePosition = { x: this.spriteKey.STAND_BACK_X, y: this.spriteKey.STAND_Y };
                     this.walkSpritePosition = { x: this.spriteKey.WALK_BACK_X, y: this.spriteKey.WALK_Y };
+                    this.attackSpritePosition = { x: this.spriteKey.ATTACK_BACK_X, y: this.spriteKey.ATTACK_Y};
                 }
             }
             else if (this.keyboarder.isDown(this.keyboarder.KEYS.DOWN)) {
@@ -148,15 +155,26 @@ class Player {
                     this.spriteDirection = 'down';
                     this.spritePosition = { x: this.spriteKey.STAND_FRONT_X, y: this.spriteKey.STAND_Y };
                     this.walkSpritePosition = { x: this.spriteKey.WALK_FRONT_X, y: this.spriteKey.WALK_Y };
+                    this.attackSpritePosition = { x: this.spriteKey.ATTACK_FRONT_X, y: this.spriteKey.ATTACK_Y};
                 }
             }
         }
     }
 
     draw() {
-        if (this.spriteDirection === "down" &&
-            (this.keyboarder.isDown(this.keyboarder.KEYS.SPACE) || this.attackCurrentFrame != 0)) {
-            this.animateAttackFB(this.spriteKey.ATTACK_FRONT_X);
+        if (this.keyboarder.isDown(this.keyboarder.KEYS.SPACE) || this.attackCurrentFrame != 0) {
+            if (this.spriteDirection === "down") {
+                this.animateAttack(this.spriteKey.ATTACK_FRONT_X, 0, [0, 0, 1, 2, 2]);
+            }
+            else if (this.spriteDirection === "up") {
+                this.animateAttack(this.spriteKey.ATTACK_BACK_X);
+            }
+            else if (this.spriteDirection === "left") {
+                this.animateAttack(this.spriteKey.ATTACK_LEFT_X, 2, [0, 0, -4, -8]);
+            }
+            else {
+                this.animateAttack(this.spriteKey.ATTACK_RIGHT_X, 2, [0, 0, -4, -7]);
+            }
         }
         else if (this.keyboarder.isDown(this.keyboarder.KEYS.DOWN)) {
             this.animateWalk(this.spriteKey.WALK_FRONT_X);
@@ -198,24 +216,22 @@ class Player {
         }
     }
 
-    animateAttackFB(reset, positionOffset = [0, 0, 1, 2, 2]) {
-        console.log(this.attackCurrentFrame, this.attackTotalFramesFB,
-            this.attackSpritePosition.x + positionOffset[parseInt(this.attackCurrentFrame / this.attackSpeed)],
-            this.attackSpritePosition.y);
+    animateAttack(reset, sizeOffset = 0, positionOffset = [0, 0, 0, 0, 0]) {
+        const totalFrames = (this.spriteDirection === "up" || this.spriteDirection === "down") ? this.attackTotalFramesFB : this.attackTotalFramesLR;
 
         this.game.screen.drawImage(this.spriteImage,
             this.attackSpritePosition.x + positionOffset[parseInt(this.attackCurrentFrame / this.attackSpeed)],
             this.attackSpritePosition.y,
-            this.size.x / 2, this.size.y / 2,
+            this.size.x / 2 + sizeOffset, this.size.y / 2,
             this.center.x - this.size.x / 2, this.center.y - this.size.y / 2,
-            this.size.x, this.size.y);
+            this.size.x + sizeOffset, this.size.y);
         this.attackCurrentFrame += 1;
 
         if (this.attackCurrentFrame % this.attackSpeed === 0) {
             this.attackSpritePosition.x += 32;
         }
 
-        if (this.attackCurrentFrame === this.attackTotalFramesFB) {
+        if (this.attackCurrentFrame === totalFrames) {
             this.attackSpritePosition.x = reset;
             this.attackCurrentFrame = 0;
         }
