@@ -7,7 +7,7 @@ class Player {
         this.oldCenter = { x: this.center.x, y: this.center.y };
 
         this.move = 0;
-        this.health = 12;
+        this.health = 3;
         this.damage = 1;
 
         this.spriteKey = {

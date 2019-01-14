@@ -4,5 +4,6 @@
     background-size: 9984px 6336px;
     background-position: -3744px -1460px;
     background-color: #000;
+    image-rendering: pixelated;
 }
 
