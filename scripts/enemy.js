@@ -19,7 +19,8 @@ class Enemy {
         this.walkCurrentFrame = 0;
         this.walkSpeed = 20;
         this.walkTotalFrames = 2 * this.walkSpeed;
-        this.changeDirectionSpeed = 5;
+        this.changeDirectionCount = 5;
+        this.stepSize = 4;
 
         if (direction === "up") { this.spritePosition.y = this.spriteKey.WALK_BACK_Y; }
         else if (direction === "left") { this.spritePosition.y = this.spriteKey.WALK_LEFT_Y; }
@@ -35,12 +36,13 @@ class Enemy {
     }
 
     update() {
-        if (this.walkCurrentFrame === this.walkTotalFrames - 1) {
+        if (this.changeDirectionCount == 0) {
             const direction = parseInt(Math.random() * 4);
+            this.changeDirectionCount = 5;
 
             if (direction === 0) { 
                 if (this.spriteDirection === "down") {
-                    this.center.y += 2;
+                    this.center.y += this.stepSize;
                 }
                 else {
                     this.spritePosition.y = this.spriteKey.WALK_FRONT_Y; 
@@ -49,7 +51,7 @@ class Enemy {
             }
             else if (direction === 1) { 
                 if (this.spriteDirection === "up") {
-                    this.center.y -= 2;
+                    this.center.y -= this.stepSize;
                 }
                 else {
                     this.spritePosition.y = this.spriteKey.WALK_BACK_Y; 
@@ -58,7 +60,7 @@ class Enemy {
             }
             else if (direction === 2) {
                 if (this.spriteDirection === "left") {
-                    this.center.x -= 2;
+                    this.center.x -= this.stepSize;
                 }
                 else {
                     this.spritePosition.y = this.spriteKey.WALK_LEFT_Y;
@@ -67,13 +69,19 @@ class Enemy {
             }
             else { 
                 if (this.spriteDirection === "right") {
-                    this.center.x += 2;
+                    this.center.x += this.stepSize;
                 }
                 else {
                     this.spritePosition.y = this.spriteKey.WALK_RIGHT_Y; 
                     this.spriteDirection = "right"
                 }
             }
+        }
+        else if (this.walkCurrentFrame === this.walkTotalFrames - 1) {
+            if (this.spriteDirection === "down") { this.center.y += this.stepSize; }
+            else if (this.spriteDirection === "up") { this.center.y -= this.stepSize; }
+            else if (this.spriteDirection === "left") { this.center.x -= this.stepSize; }
+            else { this.center.x += this.stepSize; }
         }
     }
 
@@ -98,7 +106,7 @@ class Enemy {
 
         if (this.walkCurrentFrame === this.walkTotalFrames) {
             this.walkCurrentFrame = 0;
-            this.changeDirectionSpeed -= 1;
+            this.changeDirectionCount -= 1;
             this.spritePosition.x = this.spriteKey.WALK_X1;
         }
     }
