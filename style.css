@@ -12,7 +12,7 @@
     display: flex;
     flex-direction: column;
     font-family: 'Roboto', sans-serif;
-    font-size: 24px;
+    font-size: 23px;
 }
 
 .ui-health {
@@ -24,9 +24,20 @@
     margin-right: 10px;
 }
 
-
 .heart {
     width: 27px;
     height: 23px;
     margin: 0 3px 0 3px;
+}
+
+button {
+    border-radius: 3px;
+}
+
+#pause {
+    display: none;
+}
+
+#volume {
+    display: none;
 }

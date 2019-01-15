@@ -1,6 +1,7 @@
 <head>
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto:500" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <script src="./scripts/game.js"></script>
     <script src="./scripts/movement.js"></script>
@@ -29,7 +30,45 @@
             <span>Enemies Remaining</span>
             <span id="ui-enemy-remaining">8</span>
         </div>
+
+        <div class="ui-sound">
+            <button id="play"><i class="material-icons">play_arrow</i></button>
+            <button id="pause"><i class="material-icons">pause</i></button>
+            <button id="volume"><i class="material-icons">volume_up</i></button>
+            <button id="mute"><i class="material-icons">volume_off</i></button>
+        </div>
     </div>
 
-    <div id="debug"></div>
+    <script>
+        const bgm = new Audio("./assets/hyrule-field.mp3");
+        const playButton = document.getElementById("play");
+        const pauseButton = document.getElementById("pause");
+        const muteButton = document.getElementById("mute");
+        const volumeButton = document.getElementById("volume");
+
+        playButton.addEventListener("click", function() {
+            bgm.play();
+            playButton.style.display = "none";
+            pauseButton.style.display = "inline";
+        });
+
+        pauseButton.addEventListener("click", function() {
+            bgm.pause();
+            pauseButton.style.display = "none";
+            playButton.style.display = "inline";
+        });
+
+        muteButton.addEventListener("click", function() {
+            bgm.volume = 0;
+            muteButton.style.display = "none";
+            volumeButton.style.display = "inline";
+        });
+
+        volumeButton.addEventListener("click", function() {
+            bgm.volume = 1;
+            volumeButton.style.display = "none";
+            muteButton.style.display = "inline";
+        }); 
+    </script>
+
 </body>

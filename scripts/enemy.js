@@ -121,7 +121,6 @@ class Enemy {
 
     animateDeath() {
         const frameIndex = parseInt(this.deathCurrentFrame / this.deathSpeed);
-        console.log(frameIndex);
         const frameInfo = this.spriteKey[`DEATH_${frameIndex}`];
 
         this.game.screen.drawImage(this.spriteImage,
