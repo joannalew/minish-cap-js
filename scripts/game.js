@@ -18,6 +18,7 @@ class Game {
         this.update = this.update.bind(this);
         this.draw = this.draw.bind(this);
         this.checkCollision = this.checkCollision.bind(this);
+        this.getBodies = this.getBodies.bind(this);
 
         this.tick();
     }
@@ -35,12 +36,14 @@ class Game {
 
         for (let i = 1; i < this.bodies.length; i++) {
             if (this.checkCollision(this.bodies[0], this.bodies[i])) {
-                this.player.health -= 1;
-                console.log(this.player.health);
-                if (this.player.spriteDirection === "down") { this.player.center.y -= this.knockbackStep; }
-                else if (this.player.spriteDirection === "up") { this.player.center.y += this.knockbackStep; }
-                else if (this.player.spriteDirection === "left") { this.player.center.x += this.knockbackStep; }
-                else { this.player.center.x -= this.knockbackStep; }
+                if (this.bodies[i].damage > 0) {
+                    this.player.health -= this.bodies[i].damage;
+                    console.log(this.player.health);
+                    if (this.player.spriteDirection === "down") { this.player.center.y -= this.knockbackStep; }
+                    else if (this.player.spriteDirection === "up") { this.player.center.y += this.knockbackStep; }
+                    else if (this.player.spriteDirection === "left") { this.player.center.x += this.knockbackStep; }
+                    else { this.player.center.x -= this.knockbackStep; }
+                }
             }
         }
     }
@@ -101,6 +104,10 @@ class Game {
     getBackgroundPositionY() {
         return this.spritePosition.y * -1;
     }
+
+    getBodies() {
+        return this.bodies;
+    }
 }
 
 window.onload = function() {
@@ -115,5 +122,9 @@ window.onload = function() {
                     'y', g.getBackgroundPositionY() + (g.player.center.y - g.gameSize.y / 2),
                     'grid', movement(g.getBackgroundPositionX() + (g.player.center.x - g.gameSize.x),
                              g.getBackgroundPositionY() + (g.player.center.y - g.gameSize.y)));
+    };
+
+    window.getBodies = function() {
+        console.log('bodies', g.getBodies());
     };
 };

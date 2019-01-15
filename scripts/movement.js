@@ -114,6 +114,33 @@ for (let i = 3924; i < 4022; i++) {
     }
 }
 
+// map 1: left-bottom castle wall (closest to gate)
+for (let i = 3552; i < 3712; i++) {
+    for (let j = 1190; j < 1264; j++) {
+        grid[i][j] = 2;
+    }
+}
+
+// map 1: left-bottom castle wall (inner sunken section)
+for (let i = 3362; i < 3552; i++) {
+    for (let j = 1222; j < 1240; j++) {
+        grid[i][j] = 2;
+    }
+}
+
+// map 1: left-bottom castle wall (left corner)
+for (let i = 3260; i < 3362; i++) {
+    for (let j = 1190; j < 1264; j++) {
+        grid[i][j] = 2;
+    }
+}
+
+// map 1: left castle wall (inner sunken section)
+for (let i = 3206; i < 3300; i++) {
+    for (let j = 1116; j < 1190; j++) {
+        grid[i][j] = 2;
+    }
+}
 
 // map 1: on castle steps, move link ==> map change
 for (let i = 3694; i < 3784; i++) {

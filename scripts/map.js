@@ -3,7 +3,7 @@ const loadMap = function(game, gameSize, id) {
 
     if (id === "m00") {
         enemies = [
-            new Enemy(game, gameSize, 0, 150, "up")
+            new Enemy(game, gameSize, 0, 150, 1, "up")
         ];
     }
 

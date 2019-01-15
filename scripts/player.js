@@ -161,6 +161,15 @@ class Player {
                     this.attackSpritePosition = { x: this.spriteKey.ATTACK_FRONT_X, y: this.spriteKey.ATTACK_Y };
                 }
             }
+            else if (this.keyboarder.isDown(this.keyboarder.KEYS.SPACE)) {
+                const bodies = this.game.getBodies();
+                for (let i = 1; i < bodies.length; i++) {
+                    if ((Math.abs(bodies[i].center.x - this.center.x) < 55) && 
+                        (Math.abs(bodies[i].center.y - this.center.y) < 55)) {
+                            bodies[i].health -= 1;
+                        }
+                    }
+            }
         }
     }
 
