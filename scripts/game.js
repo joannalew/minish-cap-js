@@ -37,8 +37,11 @@ class Game {
         for (let i = 1; i < this.bodies.length; i++) {
             if (this.checkCollision(this.bodies[0], this.bodies[i])) {
                 if (this.bodies[i].damage > 0) {
+                    const heart = document.getElementById(`heart${this.player.health}`);
+                    heart.style.display = "none";
                     this.player.health -= this.bodies[i].damage;
                     console.log(this.player.health);
+
                     if (this.player.spriteDirection === "down") { this.player.center.y -= this.knockbackStep; }
                     else if (this.player.spriteDirection === "up") { this.player.center.y += this.knockbackStep; }
                     else if (this.player.spriteDirection === "left") { this.player.center.x += this.knockbackStep; }

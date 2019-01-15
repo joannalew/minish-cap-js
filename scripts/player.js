@@ -164,8 +164,8 @@ class Player {
             else if (this.keyboarder.isDown(this.keyboarder.KEYS.SPACE)) {
                 const bodies = this.game.getBodies();
                 for (let i = 1; i < bodies.length; i++) {
-                    if ((Math.abs(bodies[i].center.x - this.center.x) < 55) && 
-                        (Math.abs(bodies[i].center.y - this.center.y) < 55)) {
+                    if ((Math.abs(bodies[i].center.x - this.center.x) < 58) && 
+                        (Math.abs(bodies[i].center.y - this.center.y) < 58)) {
                             bodies[i].health -= 1;
                         }
                     }

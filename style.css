@@ -7,3 +7,17 @@
     image-rendering: pixelated;
 }
 
+.user-interface {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.ui-title {
+    font-family: 'Press Start 2P', cursive;
+}
+
+.heart {
+    width: 27px;
+    height: 23px;
+}
