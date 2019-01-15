@@ -38,7 +38,7 @@ class Player {
         this.walkCurrentFrame = 0;
         this.walkSpritePosition = { x: this.spriteKey.WALK_FRONT_X, y: this.spriteKey.WALK_Y };
 
-        this.attackSpeed = 5;
+        this.attackSpeed = 3;
         this.attackTotalFramesFB = 5 * this.attackSpeed;
         this.attackTotalFramesLR = 4 * this.attackSpeed;
         this.attackCurrentFrame = 0;
@@ -48,6 +48,9 @@ class Player {
         this.update = this.update.bind(this);
         this.draw = this.draw.bind(this);
         this.animateWalk = this.animateWalk.bind(this);
+        this.animateAttack = this.animateAttack.bind(this);
+        this.animateSword = this.animateSword.bind(this);
+        this.animateSwordHelper = this.animateSwordHelper.bind(this);
         this.getLocationX = this.getLocationX.bind(this);
         this.getLocationY = this.getLocationY.bind(this);
     }
@@ -127,7 +130,7 @@ class Player {
                     this.spriteDirection = 'up';
                     this.spritePosition = { x: this.spriteKey.STAND_BACK_X, y: this.spriteKey.STAND_Y };
                     this.walkSpritePosition = { x: this.spriteKey.WALK_BACK_X, y: this.spriteKey.WALK_Y };
-                    this.attackSpritePosition = { x: this.spriteKey.ATTACK_BACK_X, y: this.spriteKey.ATTACK_Y};
+                    this.attackSpritePosition = { x: this.spriteKey.ATTACK_BACK_X, y: this.spriteKey.ATTACK_Y };
                 }
             }
             else if (this.keyboarder.isDown(this.keyboarder.KEYS.DOWN)) {
@@ -155,7 +158,7 @@ class Player {
                     this.spriteDirection = 'down';
                     this.spritePosition = { x: this.spriteKey.STAND_FRONT_X, y: this.spriteKey.STAND_Y };
                     this.walkSpritePosition = { x: this.spriteKey.WALK_FRONT_X, y: this.spriteKey.WALK_Y };
-                    this.attackSpritePosition = { x: this.spriteKey.ATTACK_FRONT_X, y: this.spriteKey.ATTACK_Y};
+                    this.attackSpritePosition = { x: this.spriteKey.ATTACK_FRONT_X, y: this.spriteKey.ATTACK_Y };
                 }
             }
         }
@@ -191,9 +194,9 @@ class Player {
         else {
             this.game.screen.drawImage(this.spriteImage,
                 this.spritePosition.x, this.spritePosition.y,
-                this.size.x / 2, this.size.y / 2,
+                this.size.x / 2 + 2, this.size.y / 2,
                 this.center.x - this.size.x / 2, this.center.y - this.size.y / 2,
-                this.size.x, this.size.y);
+                this.size.x + 2, this.size.y);
         }
     }
 
@@ -218,6 +221,7 @@ class Player {
 
     animateAttack(reset, sizeOffset = 0, positionOffset = [0, 0, 0, 0, 0]) {
         const totalFrames = (this.spriteDirection === "up" || this.spriteDirection === "down") ? this.attackTotalFramesFB : this.attackTotalFramesLR;
+        this.animateSword(parseInt(this.attackCurrentFrame / this.attackSpeed));
 
         this.game.screen.drawImage(this.spriteImage,
             this.attackSpritePosition.x + positionOffset[parseInt(this.attackCurrentFrame / this.attackSpeed)],
@@ -235,6 +239,73 @@ class Player {
             this.attackSpritePosition.x = reset;
             this.attackCurrentFrame = 0;
         }
+    }
+
+    animateSword(frameId) {
+        if (frameId === 0) {
+            if (this.spriteDirection === "down") {
+                this.animateSwordHelper(-33, 14, 0);
+            }
+            else if (this.spriteDirection === "up") {
+                this.animateSwordHelper(69, 45, 180);
+            }
+        }
+        else if (frameId === 1) {
+            if (this.spriteDirection === "down") {
+                this.animateSwordHelper(-31, 52, -50);
+            }
+            else if (this.spriteDirection === "left") {
+                this.animateSwordHelper(-27, -4, 22);
+            }
+            else if (this.spriteDirection === "up") {
+                this.animateSwordHelper(67, 10, 135);
+            }
+            else if (this.spriteDirection === "right") {
+                this.animateSwordHelper(70, 7, 135);
+            }
+        }
+        else if (frameId === 2) {
+            if (this.spriteDirection === "down") {
+                this.animateSwordHelper(-31, 48, -45);
+            }
+            else if (this.spriteDirection === "left") {
+                this.animateSwordHelper(-32, 10, 0);
+            }
+            else if (this.spriteDirection === "right") {
+                this.animateSwordHelper(73, 40, 180);
+            }
+        }
+        else if (frameId === 3) {
+            if (this.spriteDirection === "down") {
+                this.animateSwordHelper(-3, 80, -90);
+            }
+            else if (this.spriteDirection === "left") {
+                this.animateSwordHelper(-27, -5, 23);
+            }
+            else if (this.spriteDirection === "right") {
+                this.animateSwordHelper(75, 22, 154);
+            }
+        }
+        else {
+            if (this.spriteDirection === "down") {
+                this.animateSwordHelper(30, 73, -135);
+            }
+        }
+    }
+
+    animateSwordHelper(offsetX, offsetY, angle) {
+        this.game.screen.save();
+        this.game.screen.translate(offsetX + this.center.x - this.size.x / 2, offsetY + this.center.y - this.size.y / 2);
+        this.game.screen.rotate((Math.PI / 180) * angle);
+        this.game.screen.translate(-1 * (offsetX + this.center.x - this.size.x / 2), -1 * (offsetY + this.center.y - this.size.y / 2));
+
+        this.game.screen.drawImage(this.spriteImage,
+            14, 280,
+            this.size.x / 2, this.size.y / 2,
+            offsetX + this.center.x - this.size.x / 2,
+            offsetY + this.center.y - this.size.y / 2,
+            this.size.x, this.size.y);
+        this.game.screen.restore();
     }
 
     getLocationX() {
