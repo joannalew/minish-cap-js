@@ -10,14 +10,23 @@
 .user-interface {
     margin-top: 20px;
     display: flex;
+    flex-direction: column;
+    font-family: 'Roboto', sans-serif;
+    font-size: 24px;
+}
+
+.ui-health {
+    display: flex;
     align-items: center;
 }
 
-.ui-title {
-    font-family: 'Press Start 2P', cursive;
+.ui-health span {
+    margin-right: 10px;
 }
+
 
 .heart {
     width: 27px;
     height: 23px;
+    margin: 0 3px 0 3px;
 }

@@ -40,7 +40,6 @@ class Game {
                     const heart = document.getElementById(`heart${this.player.health}`);
                     heart.style.display = "none";
                     this.player.health -= this.bodies[i].damage;
-                    console.log(this.player.health);
 
                     if (this.player.spriteDirection === "down") { this.player.center.y -= this.knockbackStep; }
                     else if (this.player.spriteDirection === "up") { this.player.center.y += this.knockbackStep; }

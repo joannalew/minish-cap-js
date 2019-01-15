@@ -136,6 +136,10 @@ class Enemy {
             const gameBodies = this.game.getBodies();
             const enemyIndex = gameBodies.indexOf(gameBodies.find(enemy => enemy.enemyId === this.enemyId));
             gameBodies.splice(enemyIndex, 1);
+
+            const remainingEnemies = document.getElementById('ui-enemy-remaining');
+            const currentCount = parseInt(remainingEnemies.innerHTML);
+            remainingEnemies.innerHTML = currentCount - 1;
         }
     }
 }
