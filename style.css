@@ -20,7 +20,13 @@
     align-items: center;
 }
 
-.ui-health span {
+.ui-sound {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.title {
     margin-right: 10px;
 }
 
@@ -32,6 +38,7 @@
 
 button {
     border-radius: 3px;
+    margin: 0 3px 0 3px;
 }
 
 #pause {

@@ -20,7 +20,7 @@
 
     <div class="user-interface">
         <div class="ui-health">
-            <span>Health</span>
+            <span class="title">Health</span>
             <img class="heart" id="heart1" src="./assets/heart.png"></img>
             <img class="heart" id="heart2" src="./assets/heart.png"></img>
             <img class="heart" id="heart3" src="./assets/heart.png"></img>
@@ -32,12 +32,33 @@
         </div>
 
         <div class="ui-sound">
+            <span class="title">Sound</span>
             <button id="play"><i class="material-icons">play_arrow</i></button>
             <button id="pause"><i class="material-icons">pause</i></button>
             <button id="volume"><i class="material-icons">volume_up</i></button>
             <button id="mute"><i class="material-icons">volume_off</i></button>
         </div>
     </div>
+
+    <audio id="attack1" controls style="display: none;">
+        <source src="./assets/sword1.wav">
+    </audio>
+
+    <audio id="attack2" controls style="display: none;">
+        <source src="./assets/sword2.wav">
+    </audio>
+
+    <audio id="attack3" controls style="display: none;">
+        <source src="./assets/sword3.wav">
+    </audio>
+
+    <audio id="slash" controls style="display: none;">
+        <source src="./assets/slash.wav">
+    </audio>
+
+    <audio id="hurt" controls style="display: none;">
+        <source src="./assets/hurt.wav">
+    </audio>
 
     <script>
         const bgm = new Audio("./assets/hyrule-field.mp3");

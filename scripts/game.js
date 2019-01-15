@@ -11,6 +11,7 @@ class Game {
         this.envBodies = loadMap(this, this.gameSize, this.mapId);
         this.bodies = this.bodies.concat(this.player, this.envBodies.enemies);
 
+        this.hurtSound = document.getElementById("hurt");
         this.spritePosition = { x: -3744, y: -1460 };
         this.knockbackStep = 30;
 
@@ -39,6 +40,8 @@ class Game {
                 if (this.bodies[i].damage > 0) {
                     const heart = document.getElementById(`heart${this.player.health}`);
                     heart.style.display = "none";
+                    this.hurtSound.play();
+
                     this.player.health -= this.bodies[i].damage;
 
                     if (this.player.spriteDirection === "down") { this.player.center.y -= this.knockbackStep; }

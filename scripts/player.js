@@ -10,6 +10,13 @@ class Player {
         this.health = 3;
         this.damage = 1;
 
+        this.slashSound = document.getElementById("slash");
+        this.attackSounds = [
+            document.getElementById("attack1"),
+            document.getElementById("attack2"),
+            document.getElementById("attack3")
+        ];
+
         this.spriteKey = {
             STAND_FRONT_X: 15,
             STAND_LEFT_X: 51,
@@ -162,10 +169,28 @@ class Player {
                 }
             }
             else if (this.keyboarder.isDown(this.keyboarder.KEYS.SPACE)) {
+                this.attackSounds[parseInt(Math.random() * 3)].play();
+
                 const bodies = this.game.getBodies();
                 for (let i = 1; i < bodies.length; i++) {
                     if ((Math.abs(bodies[i].center.x - this.center.x) < 58) && 
                         (Math.abs(bodies[i].center.y - this.center.y) < 58)) {
+                            this.slashSound.play();
+
+                            // enemy knockback
+                            // if (this.spriteDirection === "up") {
+                            //     bodies[i].center.y -= 10;
+                            // }
+                            // else if (this.spriteDirection === "down") {
+                            //     bodies[i].center.y += 10;
+                            // }
+                            // else if (this.spriteDirection === "left") {
+                            //     bodies[i].center.x -= 10;
+                            // }
+                            // else {
+                            //     bodies[i].center.x += 10;
+                            // }
+
                             bodies[i].health -= 1;
                         }
                     }
