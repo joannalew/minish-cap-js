@@ -1,3 +1,20 @@
+body {
+    margin: 0px;
+    background-color: #457C39;
+    font-family: 'Roboto', sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+    
+}
+
+a:hover {
+    color: #0073bb;
+    cursor: pointer;
+}
+
 #screen {
     background: url('./assets/overworld.png');
     background-repeat: no-repeat;
@@ -7,13 +24,46 @@
     image-rendering: pixelated;
 }
 
+.main-title {
+    text-align: center;
+    font-size: 48px;
+    color: #000;
+    -webkit-text-fill-color: white;
+    -webkit-text-stroke: 1px #faa211;
+}
+
+.main-container {
+    min-width: 980px;
+    background-color: #457C39;
+}
+
+.alignment-container {
+    max-width: 750px;
+    margin: 0 auto;
+    padding-top: 20px;
+}
+
+.inner-container {
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+}
+
 .user-interface {
-    margin-top: 20px;
+    margin-left: 20px;
+    padding: 10px;
+    border-radius: 5px;
     display: flex;
     flex-direction: column;
-    font-family: 'Roboto', sans-serif;
     font-size: 23px;
+    background-color: white;
+
+    background-image: url("./assets/background.png");
+    background-size: 78px 118px;
+    background-repeat: no-repeat;
+    background-position: right bottom;
 }
+
 
 .ui-health {
     display: flex;
@@ -23,11 +73,31 @@
 .ui-sound {
     display: flex;
     align-items: center;
-    margin-top: 5px;
+    margin-top: 8px;
+}
+
+.credits {
+    margin-top: 8px;
+}
+
+.ui-sound button {
+    background-color: #d3d3d3;
+}
+
+.ui-sound button:hover {
+    background-color: #999;
+}
+
+.ui-controls {
+    margin-top: 8px;
 }
 
 .title {
     margin-right: 10px;
+}
+
+.text {
+    font-size: 18px;
 }
 
 .heart {

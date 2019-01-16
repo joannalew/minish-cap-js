@@ -12,31 +12,62 @@
 </head>
 
 <body>
-    <canvas id="screen" width="480" height="320"></canvas>
+    <div class="main-container">
+        <div class="alignment-container">
 
-    <img id="world" src="./assets/overworld.png" style="display: none;"></img>
-    <img id="link" src="./assets/link.png" style="display: none;"></img>
-    <img id="octorok" src="./assets/octorok.png" style="display: none;"></img>
+            <div class="title-container">
+                <div class="main-title">
+                    Recreating Zelda: The Minish Cap
+                </div>
+                <div class="main-title">
+                    in Vanilla Javascript
+                </div>
+            </div>
+            
+            <div class="inner-container">
+                <canvas id="screen" width="480" height="320"></canvas>
 
-    <div class="user-interface">
-        <div class="ui-health">
-            <span class="title">Health</span>
-            <img class="heart" id="heart1" src="./assets/heart.png"></img>
-            <img class="heart" id="heart2" src="./assets/heart.png"></img>
-            <img class="heart" id="heart3" src="./assets/heart.png"></img>
-        </div>
+                <img id="world" src="./assets/overworld.png" style="display: none;"></img>
+                <img id="link" src="./assets/link.png" style="display: none;"></img>
+                <img id="octorok" src="./assets/octorok.png" style="display: none;"></img>
 
-        <div class="ui-enemies">
-            <span>Enemies Remaining</span>
-            <span id="ui-enemy-remaining">8</span>
-        </div>
+                <div class="user-interface">
+                    <div class="ui-health">
+                        <span class="title">Health</span>
+                        <img class="heart" id="heart1" src="./assets/heart.png"></img>
+                        <img class="heart" id="heart2" src="./assets/heart.png"></img>
+                        <img class="heart" id="heart3" src="./assets/heart.png"></img>
+                    </div>
 
-        <div class="ui-sound">
-            <span class="title">Sound</span>
-            <button id="play"><i class="material-icons">play_arrow</i></button>
-            <button id="pause"><i class="material-icons">pause</i></button>
-            <button id="volume"><i class="material-icons">volume_up</i></button>
-            <button id="mute"><i class="material-icons">volume_off</i></button>
+                    <div class="ui-enemies">
+                        <span>Enemies Remaining</span>
+                        <span id="ui-enemy-remaining">8</span>
+                    </div>
+
+                    <div class="ui-sound">
+                        <span class="title">Sound</span>
+                        <button id="play"><i class="material-icons">play_arrow</i></button>
+                        <button id="pause"><i class="material-icons">pause</i></button>
+                        <button id="volume"><i class="material-icons">volume_up</i></button>
+                        <button id="mute"><i class="material-icons">volume_off</i></button>
+                    </div>
+
+                    <div class="ui-controls">
+                        <span class="title">Controls</span>
+                        <div class="text">Press arrow keys to move</div>
+                        <div class="text">Press space to attack</div>
+                    </div>
+
+                    <div class="credits">
+                        <span class="title">Credits</span>
+                        <div class="text"><a href="https://gamefaqs.gamespot.com/boards/920670-the-legend-of-zelda-the-minish-cap/70343416">Hyrule world map</a></div>
+                        <div class="text"><a href="https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/sheet/6369/">Link's spritesheet</a></div>
+                        <div class="text"><a href="https://www.spriters-resource.com/game_boy_advance/thelegendofzeldatheminishcap/sheet/6504/">Octorok spritesheet</a></div>
+                        <div class="text"><a href="https://www.youtube.com/watch?v=SNsJdnpTX-I">Background music</a></div>
+                        <div class="text"><a href="http://noproblo.dayjo.org/ZeldaSounds/">Sound effects</a></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -67,26 +98,42 @@
         const muteButton = document.getElementById("mute");
         const volumeButton = document.getElementById("volume");
 
-        playButton.addEventListener("click", function() {
+        const soundEffects = [
+            document.getElementById("attack1"),
+            document.getElementById("attack2"),
+            document.getElementById("attack3"),
+            document.getElementById("slash"),
+            document.getElementById("hurt")
+        ];
+
+        playButton.addEventListener("click", function () {
             bgm.play();
             playButton.style.display = "none";
             pauseButton.style.display = "inline";
         });
 
-        pauseButton.addEventListener("click", function() {
+        pauseButton.addEventListener("click", function () {
             bgm.pause();
             pauseButton.style.display = "none";
             playButton.style.display = "inline";
         });
 
-        muteButton.addEventListener("click", function() {
+        muteButton.addEventListener("click", function () {
             bgm.volume = 0;
+            for (let i = 0; i < soundEffects.length; i++) {
+                soundEffects[i].volume = 0;
+            }
+
             muteButton.style.display = "none";
             volumeButton.style.display = "inline";
         });
 
-        volumeButton.addEventListener("click", function() {
-            bgm.volume = 1;
+        volumeButton.addEventListener("click", function () {
+            bgm.volume = 0.5;
+            for (let i = 0; i < soundEffects.length; i++) {
+                soundEffects[i].volume = 1;
+            }
+
             volumeButton.style.display = "none";
             muteButton.style.display = "inline";
         }); 
