@@ -117,19 +117,4 @@ class Game {
 
 window.onload = function() {
     const g = new Game('screen');
-
-    window.getPosition = function() {
-        console.log('gx', g.getBackgroundPositionX(),
-                    'gy', g.getBackgroundPositionY(),
-                    'px', g.player.center.x - g.gameSize.x / 2,
-                    'py', g.player.center.y - g.gameSize.y / 2,
-                    'x', g.getBackgroundPositionX() + (g.player.center.x - g.gameSize.x / 2), 
-                    'y', g.getBackgroundPositionY() + (g.player.center.y - g.gameSize.y / 2),
-                    'grid', movement(g.getBackgroundPositionX() + (g.player.center.x - g.gameSize.x),
-                             g.getBackgroundPositionY() + (g.player.center.y - g.gameSize.y)));
-    };
-
-    window.getBodies = function() {
-        console.log('bodies', g.getBodies());
-    };
 };
