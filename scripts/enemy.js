@@ -5,6 +5,7 @@ class Enemy {
         this.size = { x: 38, y: 34 };
         this.center = { x: gameSize.x / 2 + offsetX, y: gameSize.y / 2 + offsetY };
         this.oldCenter = { x: this.center.x, y: this.center.y };
+        this.move = 0;
 
         this.spriteKey = {
             WALK_FRONT_Y: 21,
@@ -82,10 +83,46 @@ class Enemy {
             }
         }
         else if (this.walkCurrentFrame === this.walkTotalFrames - 1) {
-            if (this.spriteDirection === "down") { this.center.y += this.stepSize; }
-            else if (this.spriteDirection === "up") { this.center.y -= this.stepSize; }
-            else if (this.spriteDirection === "left") { this.center.x -= this.stepSize; }
-            else { this.center.x += this.stepSize; }
+            if (this.spriteDirection === "down") {
+                this.move = movement(
+                    this.game.getBackgroundPositionX() + (this.center.x - this.gameSize.x / 2),
+                    this.game.getBackgroundPositionY() + (this.center.y - this.gameSize.y / 2) + 2
+                );
+                
+                if (this.move != 2) {
+                    this.center.y += this.stepSize;
+                }
+            }
+            else if (this.spriteDirection === "up") {
+                this.move = movement(
+                    this.game.getBackgroundPositionX() + (this.center.x - this.gameSize.x / 2),
+                    this.game.getBackgroundPositionY() + (this.center.y - this.gameSize.y / 2) - 2
+                );
+
+                if (this.move != 2) {
+                    this.center.y -= this.stepSize; 
+                }
+            }
+            else if (this.spriteDirection === "left") { 
+                this.move = movement(
+                    this.game.getBackgroundPositionX() + (this.center.x - this.gameSize.x / 2) - 2,
+                    this.game.getBackgroundPositionY() + (this.center.y - this.gameSize.y / 2)
+                );
+
+                if (this.move != 2) {
+                    this.center.x -= this.stepSize; 
+                }
+            }
+            else { 
+                this.move = movement(
+                    this.game.getBackgroundPositionX() + (this.center.x - this.gameSize.x / 2) + 2,
+                    this.game.getBackgroundPositionY() + (this.center.y - this.gameSize.y / 2)
+                );
+
+                if (this.move != 2) {
+                    this.center.x += this.stepSize; 
+                }
+            }
         }
     }
 
@@ -130,7 +167,7 @@ class Enemy {
             this.size.x + frameInfo[2], this.size.y + frameInfo[3]);
 
         this.deathCurrentFrame += 1;
-        
+
         if (this.deathCurrentFrame === this.deathTotalFrames) {
             const gameBodies = this.game.getBodies();
             const enemyIndex = gameBodies.indexOf(gameBodies.find(enemy => enemy.enemyId === this.enemyId));

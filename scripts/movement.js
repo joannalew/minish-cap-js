@@ -121,8 +121,22 @@ for (let i = 3552; i < 3712; i++) {
     }
 }
 
+// map1: right-bottom castle wall (closest to gate)
+for (let i = 3794; i < 3934; i++) {
+    for (let j = 1190; j < 1264; j++) {
+        grid[i][j] = 2;
+    }
+}
+
 // map 1: left-bottom castle wall (inner sunken section)
 for (let i = 3362; i < 3552; i++) {
+    for (let j = 1222; j < 1240; j++) {
+        grid[i][j] = 2;
+    }
+}
+
+// map 1: right-bottom castle wall (inner sunken section)
+for (let i = 3934; i < 4182; i++) {
     for (let j = 1222; j < 1240; j++) {
         grid[i][j] = 2;
     }
@@ -135,9 +149,107 @@ for (let i = 3260; i < 3362; i++) {
     }
 }
 
+// map 1: right-bottom castle wall (right corner)
+for (let i = 4124; i < 4204; i++) {
+    for (let j = 1190; j < 1264; j++) {
+        grid[i][j] = 2;
+    }
+}
+
 // map 1: left castle wall (inner sunken section)
 for (let i = 3206; i < 3300; i++) {
     for (let j = 1116; j < 1190; j++) {
+        grid[i][j] = 2;
+    }
+}
+
+// map 1: right castle wall (inner sunken section)
+for (let i = 4188; i < 4270; i++) {
+    for (let j = 1116; j < 1190; j++) {
+        grid[i][j] = 2;
+    }
+}
+
+// map 1: left castle wall
+for (let i = 3242; i < 3332; i++) {
+    for (let j = 994; j < 1180; j++) {
+        grid[i][j] = 2;
+    }
+}
+
+// map 1: right castle wall
+for (let i = 4156; i < 4268; i++) {
+    for (let j = 994; j < 1180; j++) {
+        grid[i][j] = 2;
+    }
+}
+
+// map 1: left solo bottom hedge
+for (let i = 3330; i < 3464; i++) {
+    for (let j = 1062; j < 1150; j++) {
+        grid[i][j] = 2;
+    }
+}
+
+// map 1: right solo bottom hedge
+for (let i = 4026; i < 4156; i++) {
+    for (let j = 1062; j < 1150; j++) {
+        grid[i][j] = 2;
+    }
+}
+
+// map 1: left guard
+for (let i = 3330; i < 3370; i++) {
+    for (let j = 964; j < 1064; j++) {
+        grid[i][j] = 2;
+    }
+}
+
+// map 1: right guard
+for (let i = 4122; i < 4208; i++) {
+    for (let j = 964; j < 1064; j++) {
+        grid[i][j] = 2;
+    }
+}
+
+// map 1: bottom left hedge border
+for (let i = 3322; i < 3462; i++) {
+    for (let j = 962; j < 1054; j++) {
+        grid[i][j] = 2;
+    }
+}
+
+// map 1: bottom right hedge border
+for (let i = 4026; i < 4172; i++) {
+    for (let j = 962; j < 1054; j++) {
+        grid[i][j] = 2;
+    }
+}
+
+// map 1: left hedge border
+for (let i = 3382; i < 3462; i++) {
+    for (let j = 708; j < 1054; j++) {
+        grid[i][j] = 2;
+    }
+}
+
+// map 1: right hedge border
+for (let i = 4026; i < 4112; i++) {
+    for (let j = 708; j < 1054; j++) {
+        grid[i][j] = 2;
+    }
+}
+
+// map 1: upper left hedge border (top left corner)
+for (let i = 3462; i < 3530; i++) {
+    for (let j = 766; j < 832; j++) {
+        grid[i][j] = 2;
+    }
+}
+
+// map 1: upper right hedge border (top right corner)
+for (let i = 3962; i < 4026; i++) {
+    for (let j = 766; j < 800; j++) {
         grid[i][j] = 2;
     }
 }
@@ -155,7 +267,6 @@ for (let i = 3710; i < 3782; i++) {
         grid[i][j] = 3;
     }
 }
-
 
 const movement = function(x, y) {
     return grid[x][y];
